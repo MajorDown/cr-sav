@@ -1,3 +1,4 @@
+'use client'
 import { useState, useEffect } from "react"
 import { useCornerContext } from "@/contexts/CornerContext"
 import { useSAVContext } from "@/contexts/SAVContext"
@@ -10,9 +11,9 @@ const SavLister = () => {
         const getSAVList = async () => {
             if (actualCorner) {
                 setIsLoading(true)
-                const response = await fetch(`/api/sav/getbyCorner/${actualCorner.id}`)
-                const savList = await response.json()
-                updateListOfSAV(savList)
+                const response = await fetch(`/api/sav/getByCorner/${actualCorner.id}`)
+                if (!response.ok) updateListOfSAV([])
+                else updateListOfSAV(await response.json())
                 setIsLoading(false)
             }
         }
@@ -21,15 +22,16 @@ const SavLister = () => {
 
   return (
     <section>
-        <h2>Liste des SAV</h2>
-        {isLoading && <p>Chargement...</p>}
-        {listOfSAV && listOfSAV.map(sav => (
+        <h2>Liste des SAV du Corner {actualCorner?.cornerName}</h2>
+        {isLoading && <p>Chargement des SAV...</p>}
+        {!isLoading && listOfSAV && listOfSAV.length > 0 && listOfSAV.map(sav => (
             <div key={sav.id}>
                 <h3>{sav.clientName}</h3>
                 <p>{sav.product.category} {sav.product.constructor} {sav.product.model}</p>
                 <p>{sav.actualStatus}</p>
             </div>
         ))}
+        {!isLoading && (!listOfSAV || listOfSAV.length === 0) && <p>Aucun SAV pour ce corner</p>}
     </section>
   )
 }

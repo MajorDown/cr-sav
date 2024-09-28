@@ -1,26 +1,41 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
-import { SAV } from "@/constants/types";
+import { Contact, Log, Product, SAV, SAVStatus } from "@/constants/types";
 
 // Fonction pour récupérer la liste des SAV par corner
-async function getSavByCorner(): Promise<SAV[]> {
-  let corners = await prisma.corner.findMany();
+async function getSavByCorner(id: string): Promise<SAV[]> {
+    // recherche des SAV par corner dans prisma
+    let savList = await prisma.sAV.findMany({
+        where: {
+            corner: id,
+        },
+    });
 
-  return corners.map(corner => ({
-    id: corner.id,
-    cornerName: corner.cornerName,
-    cornerContact: JSON.parse(corner.cornerContact), // Désérialisation du contact
-  }));
+    return savList.map((sav) => ({
+        id: sav.id,
+        corner: sav.corner,
+        clientName: sav.clientName,
+        clientContact: JSON.parse(sav.clientContact) as Contact, // Désérialisation du contact client
+        product: JSON.parse(sav.product) as Product, // Désérialisation du produit
+        actualStatus: sav.actualStatus as SAVStatus, // Désérialisation du status (JSON string)
+        log: JSON.parse(sav.log) as Log[], // Désérialisation des logs
+    }));
 }
 
-export const GET = async (request: Request) => {
-  console.log("api/corners/getAll ~> Récupération de la liste des corners");
+// Fonction GET avec route dynamique
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const id = params.id as string;
+  console.log(`api/sav/getByCorner/${id} ~> Récupération des SAV du corner ${id}`);
+  
   try {
-    // récupération de la liste des corners via prisma
-    const cornersList: Corner[] = await getCorners();
-    return NextResponse.json(cornersList, { status: 201 });
+    // récupération de la liste des SAV par corner via prisma
+    const savList: SAV[] = await getSavByCorner(id);
+    return NextResponse.json(savList, { status: 200 }); // 200 pour succès
   } catch (error) {
-    console.log("api/corners/getAll ~> error :", error);
-    return NextResponse.json("échec de la récupération des corners", { status: 500 });
+    console.log(`api/sav/getByCorner/${id} ~> error :`, error);
+    return NextResponse.json("échec de la récupération des SAV", { status: 500 });
   }
-};
+}
