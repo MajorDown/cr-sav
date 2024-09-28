@@ -18,14 +18,7 @@ export type Product = {
     informations: string
 }
 
-export type SAVStatus = {
-    pending: boolean,
-    isPiecesOrdered: boolean,
-    isPiecesReceived: boolean,
-    isWaitingClient: boolean,
-    isRepaired: boolean
-    isSolved: boolean
-}
+export type SAVStatus = "livré" | "réparé" | "en réparation" | "pièces en attente" | "commande en attente" 
 
 export type Log = {
     date: Date,
@@ -44,13 +37,14 @@ export type SAV = {
 }
 
 export type SAVContext = {
-    listOfSAV: SAV[],
+    listOfSAV: SAV[] | null,
     updateListOfSAV: (list: SAV[]) => void
 }
 
 export type Corner = {
-    name: string,
-    contact: Contact,
+    id: string
+    cornerName: string,
+    cornerContact: Contact,
 }
 
 export type CornerContext = {

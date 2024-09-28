@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Button from './Button'
+import CornerSelector from './CornerSelector'
 
 const Header = () => {
   return (
@@ -13,15 +14,8 @@ const Header = () => {
         />
         <h1>Gestion des SAV</h1>
       </div>
-      <div id={"menu"}>      
-        <Button>
-          <Image 
-            src="/images/reload.png"
-            alt="ajouter" 
-            width={32} 
-            height={32} 
-          />
-        </Button>
+      <div id={"menu"}>
+        <CornerSelector />      
       </div>
     </header>
   )
