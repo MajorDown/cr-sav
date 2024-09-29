@@ -27,8 +27,7 @@ const SavLister = () => {
         {!isLoading && listOfSAV && listOfSAV.length > 0 && listOfSAV.map(sav => (
             <div key={sav.id}>
                 <h3>{sav.clientName}</h3>
-                <p>{sav.product.category} {sav.product.constructor} {sav.product.model}</p>
-                <p>{sav.actualStatus}</p>
+                <p>{sav.product.constructor} {sav.product.model}</p>
             </div>
         ))}
         {!isLoading && (!listOfSAV || listOfSAV.length === 0) && <p>Aucun SAV pour ce corner</p>}

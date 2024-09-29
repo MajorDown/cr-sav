@@ -1,6 +1,19 @@
+// TYPES POUR LE CORNER
+
 export type Contact = {
     tel: string,
     email: string | null
+}
+
+export type Corner = {
+    id: string
+    cornerName: string,
+    cornerContact: Contact,
+}
+
+export type CornerContext = {
+    actualCorner: Corner | null,
+    updateActualCorner: (corner: Corner) => void
 }
 
 export type ProductCategory = "smartphone" | "tablette" | "laptop" | "montre connectée" | "console"
@@ -14,16 +27,27 @@ export type Product = {
     category: ProductCategory,
     constructor: ProductConstructor | string
     model: string,
-    saleDate: Date | null
     informations: string
 }
 
-export type SAVStatus = "livré" | "réparé" | "en réparation" | "pièces en attente" | "commande en attente" 
+// TYPES POUR LES SAV
+
+export type ProductToSAV = Product & {
+    saleDate: Date;
+}
+
+export type Status = "livré" | "réparé" | "en réparation" | "pièces en attente" | "commande en attente" 
+
+export type Intervention = {
+    todo: string,
+    isDone: boolean
+}
 
 export type Log = {
     date: Date,
-    status: SAVStatus,
-    comment: string
+    status: Status,
+    report: string,
+    interventions: Intervention[]
 }
 
 export type SAV = {
@@ -31,8 +55,7 @@ export type SAV = {
     corner: string,
     clientName: string,
     clientContact: Contact,
-    product: Product,
-    actualStatus: SAVStatus,
+    product: ProductToSAV,
     log: Log[]
 }
 
@@ -41,13 +64,21 @@ export type SAVContext = {
     updateListOfSAV: (list: SAV[]) => void
 }
 
-export type Corner = {
-    id: string
-    cornerName: string,
-    cornerContact: Contact,
+// TYPES POUR LES REFURBISHMENTS
+
+export type ProductToRefurb = Product & {
+    RefurbId: string,
+    buyDate: Date,
 }
 
-export type CornerContext = {
-    actualCorner: Corner | null,
-    updateActualCorner: (corner: Corner) => void
+export type Refurbishment = {
+    id: string,
+    corner: string,
+    product: ProductToRefurb,
+    log: Log[]
+}
+
+export type RefurbishmentContext = {
+    listOfRefurb: Refurbishment[] | null,
+    updateListOfRefurb: (list: Refurbishment[]) => void
 }

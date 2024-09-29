@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
-import { Contact, Log, Product, SAV, SAVStatus } from "@/constants/types";
+import { Contact, Log, ProductToSAV, SAV } from "@/constants/types";
 
 // Fonction pour récupérer la liste des SAV par corner
 async function getSavByCorner(id: string): Promise<SAV[]> {
@@ -16,8 +16,7 @@ async function getSavByCorner(id: string): Promise<SAV[]> {
         corner: sav.corner,
         clientName: sav.clientName,
         clientContact: JSON.parse(sav.clientContact) as Contact, // Désérialisation du contact client
-        product: JSON.parse(sav.product) as Product, // Désérialisation du produit
-        actualStatus: sav.actualStatus as SAVStatus, // Désérialisation du status (JSON string)
+        product: JSON.parse(sav.product) as ProductToSAV, // Désérialisation du produit
         log: JSON.parse(sav.log) as Log[], // Désérialisation des logs
     }));
 }
