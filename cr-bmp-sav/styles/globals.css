@@ -12,11 +12,14 @@
 
 body {
     background-color: var(--color-background);
+    display: flex;
+    flex-direction: column;
 }
 
 header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     gap: 10px;
 }
@@ -31,12 +34,28 @@ header {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin: 0px 20px;
+
 }
 
-.appBtn {
+#modeSelector {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.modeBtn {
+    width: 150px;
     border-width: 0;
     border-color: black;
     border-radius: 16px;
-    margin: 15px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    margin: 15px;
+}
+
+.modeBtn.isActive p {
+    color: grey;
 }

@@ -30,12 +30,6 @@ export type Product = {
     informations: string
 }
 
-// TYPES POUR LES SAV
-
-export type ProductToSAV = Product & {
-    saleDate: Date;
-}
-
 export type Status = "livré" | "réparé" | "en réparation" | "pièces en attente" | "commande en attente" 
 
 export type Intervention = {
@@ -43,11 +37,18 @@ export type Intervention = {
     isDone: boolean
 }
 
+
 export type Log = {
     date: Date,
     status: Status,
     report: string,
     interventions: Intervention[]
+}
+
+// TYPES POUR LES SAV
+
+export type ProductToSAV = Product & {
+    saleDate: Date;
 }
 
 export type SAV = {
@@ -78,7 +79,7 @@ export type Refurbishment = {
     log: Log[]
 }
 
-export type RefurbishmentContext = {
+export type RefurbContext = {
     listOfRefurb: Refurbishment[] | null,
     updateListOfRefurb: (list: Refurbishment[]) => void
 }

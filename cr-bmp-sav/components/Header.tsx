@@ -12,7 +12,7 @@ const Header = () => {
           width={204} 
           height={66} 
         />
-        <h1>Gestion des SAV</h1>
+        <h1>Gestion des SAV et des Reconditionnements</h1>
       </div>
       <div id={"menu"}>
         <CornerSelector />      
