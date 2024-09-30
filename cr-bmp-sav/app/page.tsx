@@ -28,7 +28,7 @@ export default function Home() {
         src={"/images/triangle.png"} 
         alt={"pointer"}
         width={32} 
-        height={32} 
+        height={24} 
       />
     </div>
     <div id={"mainViewer"}>

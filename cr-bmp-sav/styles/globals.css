@@ -46,6 +46,15 @@ header {
     gap: 10px;
 }
 
+section {
+    /* la section doit pouvoir se scroller si elle est trop grande**/
+    overflow-y: auto;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
 .modeBtn {
     width: 150px;
     border-width: 0;
@@ -58,10 +67,6 @@ header {
 
 .modeBtn.isActive p {
     color: grey;
-}
-
-.savCard {
-    display: flex;
 }
 
 #mainViewer {
@@ -92,4 +97,42 @@ header {
 #pointerSpace img.isRefurb {
     margin-left: 170px;
     transition: 0.2s;
+}
+
+.savCard,
+.RefurbCard {
+    display: flex;
+    align-items: center;
+    background-color: rgb(223, 185, 185);
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.savCard.waitingPiece,
+.savCard.waitingOrder,
+.refurbCar.waitingPiece,
+.refurbCar.waitingOrder {
+    background-color: rgb(221, 195, 161);
+}
+
+.savCard.inRepair,
+.refurbCar.inRepair {
+    background-color: rgb(199, 224, 155);
+}
+
+.savCard.repaired,
+.refurbCar.repaired {
+    background-color: rgb(148, 208, 159);
+}
+
+.savCard.released,
+.refurbCar.released {
+    background-color: rgb(157, 213, 213);
+}
+
+.savCard p,
+.refurbCar p {
+    margin-right: 20px;
 }
