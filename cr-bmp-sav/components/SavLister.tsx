@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { useCornerContext } from "@/contexts/CornerContext"
 import { useSAVContext } from "@/contexts/SAVContext"
+import SavCard from "./SavCard"
 const SavLister = () => {
     const { actualCorner } = useCornerContext()
     const { listOfSAV, updateListOfSAV } = useSAVContext()
@@ -25,10 +26,7 @@ const SavLister = () => {
         {actualCorner && <h2>Liste des SAV pour {actualCorner.cornerName}</h2>}
         {isLoading && <p>Chargement des SAV...</p>}
         {!isLoading && listOfSAV && listOfSAV.length > 0 && listOfSAV.map(sav => (
-            <div key={sav.id}>
-                <h3>{sav.clientName}</h3>
-                <p>{sav.product.constructor} {sav.product.model}</p>
-            </div>
+            <SavCard key={sav.id} sav={sav} />
         ))}
         {!isLoading && (!listOfSAV || listOfSAV.length === 0) && <p>Aucun SAV en cours</p>}
     </section>

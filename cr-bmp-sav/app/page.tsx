@@ -1,6 +1,7 @@
 'use client'
 import RefurbLister from "@/components/RefurbLister";
 import SavLister from "@/components/SavLister";
+import Image from "next/image";
 import { useState } from "react";
 import { useSAVContext } from "@/contexts/SAVContext";
 import { useRefurbContext } from "@/contexts/RefurbContext";
@@ -21,8 +22,19 @@ export default function Home() {
         <p>({listOfRefurb?.length || 0} en attente)</p>
       </button>
     </div>
-    {mode === "sav" && <SavLister />}
-    {mode === "refurb" && <RefurbLister />}
+    <div id={"pointerSpace"}>
+      <Image 
+        className={mode === "sav" ? "isSav" : "isRefurb"} 
+        src={"/images/triangle.png"} 
+        alt={"pointer"}
+        width={32} 
+        height={32} 
+      />
+    </div>
+    <div id={"mainViewer"}>
+      {mode === "sav" && <SavLister />}
+      {mode === "refurb" && <RefurbLister />}
+    </div>
   </div>
   );
 }

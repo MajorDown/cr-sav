@@ -59,3 +59,37 @@ header {
 .modeBtn.isActive p {
     color: grey;
 }
+
+.savCard {
+    display: flex;
+}
+
+#mainViewer {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin: 0px 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+#pointerSpace {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: row;
+    transition: 0.2s;
+    width: 200px;
+}
+
+#pointerSpace img.isSav {
+    margin-left: 0px;
+    transition: 0.2s;
+}
+
+#pointerSpace img.isRefurb {
+    margin-left: 170px;
+    transition: 0.2s;
+}
