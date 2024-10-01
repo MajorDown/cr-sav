@@ -4,6 +4,7 @@ import { useCornerContext } from "@/contexts/CornerContext"
 import { useSAVContext } from "@/contexts/SAVContext"
 import SavCard from "./SavCard"
 import Modal from "./Modal"
+import UpdateSAVForm from "./UpdateSAVForm"
 
 const SavLister = () => {
     const { actualCorner } = useCornerContext()
@@ -13,7 +14,7 @@ const SavLister = () => {
   return (
     <section>
         {wantUpdateSAV && <Modal onClose={() => setWantUpdateSAV(false)}>
-            <p>Création d'un SAV</p>
+            <UpdateSAVForm />
         </Modal>}
         {actualCorner && <h2>Liste des SAV pour {actualCorner.cornerName}</h2>}
         {listOfSAV && listOfSAV.length > 0 && listOfSAV.map(sav => (

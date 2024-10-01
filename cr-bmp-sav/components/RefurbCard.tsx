@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 export type RefurbCardProps = {
-    refurb: Refurbishment
+    refurb: Refurbishment,
+    onDoubleClic: () => void
 }
 
 const RefurbCard = (props: RefurbCardProps) => {
@@ -31,7 +32,10 @@ const RefurbCard = (props: RefurbCardProps) => {
     }, [props.refurb])
 
     return (
-        <div className={"savCard"}>
+        <div 
+            className={"refurbCard"}
+            onDoubleClick={props.onDoubleClic}
+        >
             <p>{props.refurb.id}</p>
             <p>{props.refurb.product.constructor} {props.refurb.product.model}</p>
             <p>{props.refurb.log[props.refurb.log.length - 1].status}</p>

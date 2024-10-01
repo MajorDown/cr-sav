@@ -101,7 +101,7 @@ h2 {
 }
 
 .savCard,
-.RefurbCard {
+.refurbCard {
     display: flex;
     align-items: center;
     background-color: rgb(223, 185, 185);
@@ -113,28 +113,28 @@ h2 {
 
 .savCard.waitingPiece,
 .savCard.waitingOrder,
-.refurbCar.waitingPiece,
-.refurbCar.waitingOrder {
+.refurbCard.waitingPiece,
+.refurbCard.waitingOrder {
     background-color: rgb(221, 195, 161);
 }
 
 .savCard.inRepair,
-.refurbCar.inRepair {
+.refurbCard.inRepair {
     background-color: rgb(199, 224, 155);
 }
 
 .savCard.repaired,
-.refurbCar.repaired {
+.refurbCard.repaired {
     background-color: rgb(148, 208, 159);
 }
 
 .savCard.released,
-.refurbCar.released {
+.refurbCard.released {
     background-color: rgb(157, 213, 213);
 }
 
 .savCard p,
-.refurbCar p {
+.refurbCard p {
     margin-right: 20px;
 }
 
@@ -144,7 +144,7 @@ h2 {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.67);
+    background-color: rgba(0, 0, 0, 0.856);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -170,4 +170,19 @@ h2 {
     font-size: large;
     color: white;
     cursor: pointer;
+}
+
+#updateSavForm,
+#updateRefurbForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 20px auto;
+}
+
+#updateSavForm *,
+#updateRefurbForm * {
+    margin: 10px;
+    color: white;
 }

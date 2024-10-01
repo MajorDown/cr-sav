@@ -16,21 +16,27 @@ export type CornerContext = {
     updateActualCorner: (corner: Corner) => void
 }
 
-export type ProductCategory = "smartphone" | "tablette" | "laptop" | "montre connectée" | "console"
+export const categoriesList = ["smartphone", "tablette", "laptop", "montre connectée", "console"] as const
 
-export type ProductConstructor = "Acer" | "Amazon" | "Apple" | "Asus" | "BlackBerry" | "Dell" | 
-    "Fairphone" | "Fujitsu" | "Gigabyte" | "Google" | "HP" | "Honor" | "HTC" | "Huawei" | "Lenovo" | 
-    "LG" | "Microsoft" | "Motorola" | "MSI" | "Nintendo" | "Nokia" | "Nvidia" | "OnePlus" | "Oppo" | 
-    "Panasonic" | "Realme" | "Razer"| "Samsung" | "Sony" | "TCL" | "Xiaomi"
+export type ProductCategory = typeof categoriesList[number]
+
+export const constructorsList = [ "Acer", "Amazon","Apple","Asus","BlackBerry","Dell",
+    "Fairphone","Fujitsu","Gigabyte","Google","HP","Honor","HTC","Huawei","Lenovo",
+    "LG","Microsoft","Motorola","MSI","Nintendo","Nokia","Nvidia","OnePlus","Oppo",
+    "Panasonic","Realme","Razer","Samsung","Sony","TCL","Xiaomi"] as const
+
+export type ProductConstructor = typeof constructorsList[number]
 
 export type Product = {
     category: ProductCategory,
-    constructor: ProductConstructor | string
+    constructor: ProductConstructor,
     model: string,
     informations: string
 }
 
-export type Status = "livré" | "réparé" | "en réparation" | "pièces en attente" | "commande en attente" 
+export const statusList = ["livré", "réparé", "en réparation", "pièces en attente", "commande en attente"] as const
+
+export type Status = typeof statusList[number]
 
 export type Intervention = {
     todo: string,
