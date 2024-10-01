@@ -7,30 +7,14 @@ import RefurbCard from "./RefurbCard"
 const RefurbLister = () => {
     const { actualCorner } = useCornerContext()
     const { listOfRefurb, updateListOfRefurb } = useRefurbContext()
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-
-    useEffect(() => {
-        const getRefurbList = async () => {
-            if (actualCorner) {
-                setIsLoading(true)
-                const response = await fetch(`/api/refurb/getByCorner/${actualCorner.id}`)
-                if (!response.ok) updateListOfRefurb([]);
-                const data = await response.json();
-                updateListOfRefurb(data)
-                setIsLoading(false)
-            }
-        }
-        getRefurbList()
-    }, [actualCorner])
 
   return (
     <section>
         {actualCorner && <h2>Liste des reconditionnement pour {actualCorner.cornerName}</h2>}
-        {isLoading && <p>Chargement des reconditionnement...</p>}
-        {!isLoading && listOfRefurb && listOfRefurb.length > 0 && listOfRefurb.map(refurb => (
+        {listOfRefurb && listOfRefurb.length > 0 && listOfRefurb.map(refurb => (
             <RefurbCard key={refurb.id} refurb={refurb} />
         ))}
-        {!isLoading && (!listOfRefurb || listOfRefurb.length === 0) && <p>Aucun reconditionnement en cours</p>}
+        {(!listOfRefurb || listOfRefurb.length === 0) && <p>Aucun reconditionnement en cours</p>}
     </section>
   )
 }

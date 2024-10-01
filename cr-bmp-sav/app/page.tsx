@@ -2,14 +2,43 @@
 import RefurbLister from "@/components/RefurbLister";
 import SavLister from "@/components/SavLister";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSAVContext } from "@/contexts/SAVContext";
 import { useRefurbContext } from "@/contexts/RefurbContext";
+import { useCornerContext } from "@/contexts/CornerContext";
 
 export default function Home() {
-  const { listOfSAV } = useSAVContext();
-  const { listOfRefurb } = useRefurbContext();
+  const { actualCorner } = useCornerContext();
+  const { listOfSAV, updateListOfSAV } = useSAVContext();
+  const { listOfRefurb, updateListOfRefurb } = useRefurbContext();
+
   const [mode, setMode] = useState<null | "sav" | "refurb">(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    //récupération des SAV
+    const getSAVList = async () => {
+        if (actualCorner) {
+            setIsLoading(true)
+            const response = await fetch(`/api/sav/getByCorner/${actualCorner.id}`)
+            if (!response.ok) updateListOfSAV([])
+            else updateListOfSAV(await response.json())
+            setIsLoading(false)
+        }
+    }
+    getSAVList()
+    //récupération des reconditionnements
+    const getRefurbList = async () => {
+      if (actualCorner) {
+          setIsLoading(true)
+          const response = await fetch(`/api/refurb/getByCorner/${actualCorner.id}`)
+          if (!response.ok) updateListOfRefurb([])
+          else updateListOfRefurb(await response.json())
+          setIsLoading(false)
+      }
+  }
+  getRefurbList()
+  }, [actualCorner])
 
   return (<div>
     <div id={"modeSelector"}>
@@ -22,7 +51,7 @@ export default function Home() {
         <p>({listOfRefurb?.length || 0} en attente)</p>
       </button>
     </div>
-    <div id={"pointerSpace"}>
+    {mode != null && <div id={"pointerSpace"}>
       <Image 
         className={mode === "sav" ? "isSav" : "isRefurb"} 
         src={"/images/triangle.png"} 
@@ -30,8 +59,9 @@ export default function Home() {
         width={32} 
         height={24} 
       />
-    </div>
+    </div>}
     <div id={"mainViewer"}>
+      {isLoading && <p>Chargement...</p>}
       {mode === "sav" && <SavLister />}
       {mode === "refurb" && <RefurbLister />}
     </div>
