@@ -14,8 +14,9 @@ const RefurbLister = () => {
             if (actualCorner) {
                 setIsLoading(true)
                 const response = await fetch(`/api/refurb/getByCorner/${actualCorner.id}`)
-                if (!response.ok) updateListOfRefurb([])
-                else updateListOfRefurb(await response.json())
+                if (!response.ok) updateListOfRefurb([]);
+                const data = await response.json();
+                updateListOfRefurb(data)
                 setIsLoading(false)
             }
         }

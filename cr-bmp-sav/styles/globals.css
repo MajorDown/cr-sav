@@ -14,6 +14,7 @@ body {
     background-color: var(--color-background);
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 header {
@@ -135,4 +136,38 @@ h2 {
 .savCard p,
 .refurbCar p {
     margin-right: 20px;
+}
+
+.uiModal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.67);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5vw;
+    z-index: 100;
+}
+
+.uiModalContent {
+    width: 90vw;
+    height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.uiModalCloseBtn {
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
+    padding: 5px;
+    background-color: transparent;
+    font-size: large;
+    color: white;
+    cursor: pointer;
 }

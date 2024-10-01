@@ -14,7 +14,7 @@ export function useRefurbContext(): RefurbContext {
   return context;
 }
 
-export const SAVProvider = (props: PropsWithChildren): JSX.Element => {
+export const RefurbProvider = (props: PropsWithChildren): JSX.Element => {
   const [listOfRefurb, updateListOfRefurb] = useState<Refurbishment[] | null>(null);
 
   return (

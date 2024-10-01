@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 export type SavCardProps = {
     sav: SAV
+    onDoubleClic: () => void
 }
 
 const SavCard = (props: SavCardProps) => {
@@ -31,7 +32,10 @@ const SavCard = (props: SavCardProps) => {
     }, [props.sav])
     
     return (
-        <div className={`savCard ${status}`}>
+        <div 
+            className={`savCard ${status}`}
+            onDoubleClick={props.onDoubleClic}
+        >
             <p>{props.sav.id}</p>
             <p>client : {props.sav.clientName}</p>
             <p>appareil : {props.sav.product.constructor} {props.sav.product.model}</p>

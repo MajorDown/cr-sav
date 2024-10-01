@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import '@/styles/globals.css'
 import { CornerProvider } from "@/contexts/CornerContext";
 import { SAVProvider } from "@/contexts/SAVContext";
+import { RefurbProvider } from "@/contexts/RefurbContext";
 
 export const metadata: Metadata = {
   title: "CR-BMP-SAV",
@@ -20,11 +21,13 @@ export default function RootLayout({
       <body >
         <CornerProvider>
           <SAVProvider>
-            <Header />
-            <main>
-              {children}
-            </main>
-            <Footer />
+            <RefurbProvider>
+              <Header />
+              <main>
+                {children}
+              </main>
+              <Footer />
+            </RefurbProvider>
           </SAVProvider>
         </CornerProvider>
       </body>
