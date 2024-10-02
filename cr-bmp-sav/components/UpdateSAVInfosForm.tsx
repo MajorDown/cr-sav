@@ -1,12 +1,11 @@
 import { SAV, categoriesList, constructorsList, ProductConstructor, ProductCategory } from "@/constants/types"
 import { useState } from "react"
-import LogCard from "./LogCard";
 
-export type UpdateSAVFormProps = {
+export type UpdateSAVInfosFormProps = {
     actualSav: SAV | null;
 }
 
-const UpdateSAVForm = (props: UpdateSAVFormProps) => {
+const UpdateSAVInfosForm = (props: UpdateSAVInfosFormProps) => {
     const [category, setCategory] = useState<ProductCategory | "">(props.actualSav?.product.category || "");
     const [constructor, setConstructor] = useState<ProductConstructor | "">(props.actualSav?.product.constructor || "");
     const [model, setModel] = useState<string>(props.actualSav?.product.model || "");
@@ -137,15 +136,9 @@ const UpdateSAVForm = (props: UpdateSAVFormProps) => {
                     </div>
                 </div>
             </div>
-            <div className={"VerticalWrapper"}>
-                <p>Historique du SAV :</p>
-                {props.actualSav?.log.map((log, index, arr) => (
-                    <LogCard key={arr.length - 1 - index} log={arr[arr.length - 1 - index]} />
-                ))}
-            </div>
             <button type="submit">Valider les Modifications</button>
         </form>
     );
 };
 
-export default UpdateSAVForm;
+export default UpdateSAVInfosForm;

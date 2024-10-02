@@ -11,6 +11,7 @@ type UIModalProps = PropsWithChildren & {
  * @returns {JSX.Element}
  */
 const UIModal = (props: UIModalProps) => {
+    
     const handleKeyDown = useCallback((event: KeyboardEvent) => {
         if (event.key === "Escape") {
             props.onClose(false);
