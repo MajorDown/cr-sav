@@ -22,9 +22,6 @@ const UpdateSAVInfosForm = (props: UpdateSAVInfosFormProps) => {
 
     return (
         <form id="updateSavForm" onSubmit={handleUpdateSAV}>
-            <h3>SAV n°{props.actualSav && props.actualSav.id}</h3>
-
-            {/* Encapsulation avec verticalWrapper */}
             <div className="verticalWrapper">
                 <div className={"horizontalWrapper"}>
                     <p>Produit concerné :</p>

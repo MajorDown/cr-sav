@@ -92,18 +92,21 @@ h2 {
     width: 200px;
 }
 
-#pointerSpace img.isSav {
+#pointerSpace img.isSav,
+#pointerSpace img.updateLog {
     margin-left: 0px;
     transition: 0.2s;
 }
 
-#pointerSpace img.isRefurb {
+#pointerSpace img.isRefurb,
+#pointerSpace img.updateSAV {
     margin-left: 170px;
     transition: 0.2s;
 }
 
 .savCard,
 .refurbCard {
+    width: 100%;
     display: flex;
     align-items: center;
     background-color: rgb(223, 185, 185);
@@ -266,4 +269,16 @@ h3 {
     border-radius: 5px;
     padding: 5px;
     margin: 0px 5px 0px 5px;
+}
+
+.interventionCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: rgb(227, 183, 174);
+}
+
+.interventionCard.isDone {
+    background-color: rgb(178, 224, 186);
 }
