@@ -14,7 +14,10 @@ body {
     background-color: var(--color-background);
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     position: relative;
+    min-height: 100vh;
+    overflow-y: auto;
 }
 
 header {
@@ -23,6 +26,17 @@ header {
     justify-content: space-between;
     align-items: center;
     gap: 10px;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    flex: 1
 }
 
 #title {
@@ -39,6 +53,11 @@ header {
 
 }
 
+input,
+select {
+    padding: 5px
+}
+
 #modeSelector,
 #updateSelector {
     display: flex;
@@ -46,11 +65,6 @@ header {
     justify-content: center;
     align-items: center;
     gap: 10px;
-}
-
-section {
-    /* la section doit pouvoir se scroller si elle est trop grande**/
-    overflow-y: auto;
 }
 
 h2 {
@@ -70,6 +84,18 @@ h2 {
 
 .modeBtn.isActive p {
     color: grey;
+}
+
+button.actionBtn {
+    border-radius: 15px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button.submit {
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 15px;
 }
 
 #mainViewer {
@@ -104,16 +130,54 @@ h2 {
     transition: 0.2s;
 }
 
+#savLister,
+#refurbLister {
+    width: 100%;
+}
+
 .savCard,
 .refurbCard {
     width: 100%;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     background-color: rgb(223, 185, 185);
     border-radius: 15px;
     padding: 10px;
     margin-bottom: 5px;
     cursor: pointer;
+}
+
+.cardInfos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.interventionsList {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
+.interventionsList span {
+    color: black;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0px 5px 0px 5px;
+}
+
+.statusViewer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 .savCard.waitingPiece,
@@ -214,7 +278,6 @@ h3 {
     flex-direction: row;
     justify-content: center;
     gap: 40px;
-    padding-bottom: 40px;
 }
 
 .horizontalWrapper {
@@ -262,6 +325,14 @@ h3 {
     margin: 0px 5px 0px 5px;
 }
 
+#interventionsLister {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
 .interventionCard {
     display: flex;
     flex-direction: row;
@@ -280,6 +351,7 @@ h3 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 .interventionCard.isDone p {
@@ -289,6 +361,7 @@ h3 {
 
 .interventionCard button {
     border-radius: 10px;
+    cursor: pointer;
 }
 
 #logCreator {
@@ -319,4 +392,26 @@ h3 {
     border-radius: 20px;
     padding: 20px;
     min-width: 700px;
+    max-height: 550px;
+    overflow-y: auto;
+}
+
+/*gestion de la scrollbar des form*/
+
+#updateSAVInfosForm::-webkit-scrollbar,
+#updateSAVLogForm::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 10px;
+}
+
+#updateSAVInfosForm::-webkit-scrollbar-thumb,
+#updateSAVLogForm::-webkit-scrollbar-thumb {
+    background-color: grey;
+    border-radius: 10px;
+}
+
+#updateSAVInfosForm::-webkit-scrollbar-track,
+#updateSAVLogForm::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 10px;
 }

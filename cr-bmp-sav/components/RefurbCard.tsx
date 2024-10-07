@@ -36,21 +36,47 @@ const RefurbCard = (props: RefurbCardProps) => {
             className={"refurbCard"}
             onDoubleClick={props.onDoubleClic}
         >
-            <p>{props.refurb.id}</p>
-            <p>{props.refurb.product.constructor} {props.refurb.product.model}</p>
-            <p>{props.refurb.log[props.refurb.log.length - 1].status}</p>
-            <Image 
-                src={
-                    status === "delivered" && "/images/livré.png" ||
-                    status === "repaired" && "/images/réparé.png" ||
-                    status === "inRepair" && "/images/en_réparation.png" ||
-                    status === "waitingPiece" && "/images/en_attente_réparation.png" ||
-                    "/images/en_attente_commande.png"
-                } 
-                width={24} 
-                height={24} 
-                alt="status" 
-            />
+            <div className="cardInfos">
+                <p>{props.refurb.id}</p>
+                <p>{props.refurb.product.constructor} {props.refurb.product.model}</p>
+            </div>
+            <div className="interventionsList">
+                {props.refurb.log[props.refurb.log.length - 1].interventions?.map((intervention, index) => (
+                    <span key={index}>{intervention.todo} {intervention.isDone? "(✓)" : ""}</span>
+                ))}
+            </div>
+            <div className={"statusViewer"}>
+                <Image 
+                    src={`/images/en_attente_commande.png`} 
+                    width={status === "waitingOrder" ? 36 : 24} 
+                    height={status === "waitingOrder" ? 36 : 24} 
+                    alt="en attente commande" 
+                />
+                <Image 
+                    src={"/images/en_attente_pièce.png"} 
+                    width={status === "waitingPiece" ? 36 : 24} 
+                    height={status === "waitingPiece" ? 36 : 24} 
+                    alt="en attente pièce"
+                />
+                <Image 
+                    src={"/images/en_réparation.png"} 
+                    width={status === "inRepair" ? 36 : 24} 
+                    height={status === "inRepair" ? 36 : 24} 
+                    alt="en réparation"
+                />
+                <Image 
+                    src={"/images/réparé.png"} 
+                    width={status === "repaired" ? 36 : 24} 
+                    height={status === "repaired" ? 36 : 24} 
+                    alt="réparé"
+                />
+                <Image 
+                    src={"/images/livré.png"} 
+                    width={status === "delivered" ? 36 : 24} 
+                    height={status === "delivered" ? 36 : 24} 
+                    alt="livré"
+                />
+            </div>
         </div>
     )
 }

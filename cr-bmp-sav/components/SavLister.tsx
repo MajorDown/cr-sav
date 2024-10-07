@@ -3,8 +3,6 @@ import { useState } from "react"
 import { useCornerContext } from "@/contexts/CornerContext"
 import { useSAVContext } from "@/contexts/SAVContext"
 import SavCard from "./SavCard"
-import Modal from "./Modal"
-import UpdateSAVForm from "./UpdateSAVInfosForm"
 import { SAV } from "@/constants/types"
 import ModalToUpdateSav from "./ModalToUpdateSav"
 
@@ -20,7 +18,7 @@ const SavLister = () => {
     }
 
   return (
-    <section>
+    <section id={"savLister"}>
         {wantUpdateSAV && SavToUpdate !=null && 
           <ModalToUpdateSav SAV={SavToUpdate} onClose={() => setWantUpdateSAV(false)}/>
         }

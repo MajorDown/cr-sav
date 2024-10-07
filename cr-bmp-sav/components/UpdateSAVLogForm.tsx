@@ -37,12 +37,14 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                 <p>Vous souhaitez actualiser le log ? Remplissez ce formulaire</p>
                 <div className={"inputWrapper"}>
                     <label htmlFor={"report"}>Rapport de la mise à jour :</label>
-                    <input 
-                        type="text" 
+                    <textarea
                         id="report"
                         placeholder="écran noir, bouton power HS, etc."
                         value={report}
                         onChange={(e) => setReport(e.target.value)}
+                        maxLength={200}
+                        rows={2} 
+                        cols={40}
                     />
                 </div>
                 <div id={"interventionsLister"}>
@@ -54,6 +56,29 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                         />
                     ))}
                     {interventions.length === 0 && <p>Aucune intervention à prévoir</p>}
+                </div>
+                <div className={"HorizontalWrapper"}>
+                    <div className={"inputWrapper"}>
+                        <label htmlFor={"newTodo"}>Nouvelle intervention à prévoir (facultatif) :</label>
+                        <input 
+                            type="text" 
+                            id="newTodo"
+                            placeholder="changer l'écran, vérifier la batterie, etc."
+                            value={newTodo}
+                            onChange={(e) => setNewTodo(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="HorizontalWrapper">
+                    <div className={"inputWrapper"}>
+                        <label htmlFor={"newIsDone"}>L'intervention est-elle déjà réalisé ?</label>
+                        <input 
+                            type="checkbox" 
+                            id="newIsDone"
+                            checked={newIsDone}
+                            onChange={(e) => setNewIsDone(e.target.checked)}
+                        />
+                    </div>
                 </div>
                 <div className={"inputWrapper"}>
                     <label htmlFor={"status"}>Statut du SAV :</label>
@@ -71,34 +96,11 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                         ))}
                     </select>
                 </div>
-                <div className={"HorizontalWrapper"}>
-                    <div className={"inputWrapper"}>
-                        <label htmlFor={"newTodo"}>Nouvelle intervention à prévoir (facultatif) :</label>
-                        <input 
-                            type="text" 
-                            id="newTodo"
-                            placeholder="changer l'écran, vérifier la batterie, etc."
-                            value={newTodo}
-                            onChange={(e) => setNewTodo(e.target.value)}
-                        />
-                    </div>
-                </div>
-                <div className="HorizontalWrapper">
-                    <div className={"inputWrapper"}>
-                        <label htmlFor={"newIsDone"}>l'intervention est-elle déjà réalisé ?</label>
-                        <input 
-                            type="checkbox" 
-                            id="newIsDone"
-                            checked={newIsDone}
-                            onChange={(e) => setNewIsDone(e.target.checked)}
-                        />
-                    </div>
-                </div>
-                <button onClick={() => handleCreateIntervention()}>
+                <button className={"actionBtn"} onClick={() => handleCreateIntervention()}>
                     Créer cette intervention
                 </button>
             </div>
-            <button type="submit">Actualiser le Log</button>
+            <button className={"submit"} type="submit">Actualiser le Log</button>
         </form>
     )
 }

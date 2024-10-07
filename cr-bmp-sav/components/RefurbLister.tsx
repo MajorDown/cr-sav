@@ -12,7 +12,7 @@ const RefurbLister = () => {
     const [wantUpdateRefurb, setWantUpdateRefurb] = useState<boolean>(false);
 
   return (
-    <section>
+    <section id={"refurbLister"}>
         {wantUpdateRefurb && <Modal onClose={() => setWantUpdateRefurb(false)}>
             <UpdateRefurbForm />
         </Modal>}

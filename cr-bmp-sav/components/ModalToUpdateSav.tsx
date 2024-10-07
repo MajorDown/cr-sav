@@ -11,7 +11,7 @@ export type ModalToUpdateSavProps = {
 }
 
 const ModalToUpdateSav = (props: ModalToUpdateSavProps) => {
-    const [updateChoice, setUpdateChoice] = useState<"updateLog" | "updateSAV" | null>(null);
+    const [updateChoice, setUpdateChoice] = useState<"updateLog" | "updateSAV">("updateLog");
 
     return (
         <Modal onClose={props.onClose}>

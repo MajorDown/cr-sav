@@ -133,7 +133,7 @@ const UpdateSAVInfosForm = (props: UpdateSAVInfosFormProps) => {
                     </div>
                 </div>
             </div>
-            <button type="submit">Valider les Modifications</button>
+            <button className={"submit"} type="submit">Valider les Modifications</button>
         </form>
     );
 };
