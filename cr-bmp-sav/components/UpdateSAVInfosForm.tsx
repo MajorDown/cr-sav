@@ -21,7 +21,7 @@ const UpdateSAVInfosForm = (props: UpdateSAVInfosFormProps) => {
     };
 
     return (
-        <form id="updateSavForm" onSubmit={handleUpdateSAV}>
+        <form id="updateSAVInfosForm" onSubmit={handleUpdateSAV}>
             <div className="verticalWrapper">
                 <div className={"horizontalWrapper"}>
                     <p>Produit concerné :</p>

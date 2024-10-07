@@ -3,6 +3,7 @@ import Image from "next/image"
 import Modal from "./Modal"
 import { useState } from "react"
 import UpdateSAVInfosForm from "./UpdateSAVInfosForm"
+import UpdateSAVLogForm from "./UpdateSAVLogForm"
 
 export type ModalToUpdateSavProps = {
     SAV: SAV
@@ -30,7 +31,7 @@ const ModalToUpdateSav = (props: ModalToUpdateSavProps) => {
                         height={24} 
                     />
                 </div>
-                {updateChoice === "updateLog" && <p>Log</p>}
+                {updateChoice === "updateLog" && <UpdateSAVLogForm  actualSav={props.SAV}/>}
                 {updateChoice === "updateSAV" && <UpdateSAVInfosForm actualSav={props.SAV} />}
             </div>
         </Modal>

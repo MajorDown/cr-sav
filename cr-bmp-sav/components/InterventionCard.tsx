@@ -9,7 +9,7 @@ export type InterventionCardProps = {
 const InterventionCard = (props : InterventionCardProps) => {
     return (
         <div className={props.intervention.isDone ? "interventionCard isDone" : "interventionCard"}>
-            <p>{props.intervention.todo}:{props.intervention.isDone ? "(✓)" : ""}</p>
+            <p>{props.intervention.todo}{props.intervention.isDone ? " (✓)" : ""}</p>
             <button onClick={() => props.onDelete(props.intervention)}>
                 <Image 
                     src={'/images/delete.png'} 

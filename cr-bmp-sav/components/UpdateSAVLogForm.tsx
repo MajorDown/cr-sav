@@ -3,11 +3,11 @@ import { SAV, Intervention, statusList } from "@/constants/types";
 import LogCard from "./LogCard";
 import InterventionCard from "./InterventionCard";
 
-export type UpdateSAVInfosFormProps = {
+export type UpdateSAVLogFormProps = {
     actualSav: SAV;
 }
 
-const UpdateSAVLogForm = (props: UpdateSAVInfosFormProps) => {
+const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
     const [report, setReport] = useState<string>("");
     const [status, setStatus] = useState<string>(props.actualSav.log[props.actualSav.log.length - 1].status);
     const [newTodo, setNewTodo] = useState<string>("");
@@ -33,7 +33,8 @@ const UpdateSAVLogForm = (props: UpdateSAVInfosFormProps) => {
                 ))}
                 {props.actualSav && props.actualSav.log.length === 0 && <p>Aucun log pour ce SAV</p>}
             </div>
-            <div id={"logCreater"}>
+            <div id={"logCreator"}>
+                <p>Vous souhaitez actualiser le log ? Remplissez ce formulaire</p>
                 <div className={"inputWrapper"}>
                     <label htmlFor={"report"}>Rapport de la mise à jour :</label>
                     <input 
@@ -43,6 +44,16 @@ const UpdateSAVLogForm = (props: UpdateSAVInfosFormProps) => {
                         value={report}
                         onChange={(e) => setReport(e.target.value)}
                     />
+                </div>
+                <div id={"interventionsLister"}>
+                    {interventions.map((intervention, index) => (
+                        <InterventionCard 
+                            key={index} 
+                            intervention={intervention} 
+                            onDelete={(intervention) => setInterventions(interventions.filter(i => i !== intervention))} 
+                        />
+                    ))}
+                    {interventions.length === 0 && <p>Aucune intervention à prévoir</p>}
                 </div>
                 <div className={"inputWrapper"}>
                     <label htmlFor={"status"}>Statut du SAV :</label>
@@ -62,7 +73,7 @@ const UpdateSAVLogForm = (props: UpdateSAVInfosFormProps) => {
                 </div>
                 <div className={"HorizontalWrapper"}>
                     <div className={"inputWrapper"}>
-                        <label htmlFor={"newTodo"}>Nouvelle intervention à prévoir :</label>
+                        <label htmlFor={"newTodo"}>Nouvelle intervention à prévoir (facultatif) :</label>
                         <input 
                             type="text" 
                             id="newTodo"
@@ -71,8 +82,10 @@ const UpdateSAVLogForm = (props: UpdateSAVInfosFormProps) => {
                             onChange={(e) => setNewTodo(e.target.value)}
                         />
                     </div>
+                </div>
+                <div className="HorizontalWrapper">
                     <div className={"inputWrapper"}>
-                        <label htmlFor={"newIsDone"}>réalisée ?</label>
+                        <label htmlFor={"newIsDone"}>l'intervention est-elle déjà réalisé ?</label>
                         <input 
                             type="checkbox" 
                             id="newIsDone"
@@ -84,16 +97,6 @@ const UpdateSAVLogForm = (props: UpdateSAVInfosFormProps) => {
                 <button onClick={() => handleCreateIntervention()}>
                     Créer cette intervention
                 </button>
-                <div id={"interventionsLister"}>
-                    {interventions.map((intervention, index) => (
-                        <InterventionCard 
-                            key={index} 
-                            intervention={intervention} 
-                            onDelete={(intervention) => setInterventions(interventions.filter(i => i !== intervention))} 
-                        />
-                    ))}
-                    {interventions.length === 0 && <p>Aucune intervention à prévoir</p>}
-                </div>
             </div>
             <button type="submit">Actualiser le Log</button>
         </form>

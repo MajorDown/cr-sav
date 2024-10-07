@@ -84,7 +84,7 @@ h2 {
 }
 
 #pointerSpace {
-    margin: auto;
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
     justify-content: row;
@@ -209,20 +209,12 @@ h3 {
     cursor: pointer;
 }
 
-#updateSavForm,
-#updateRefurbForm {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 20px auto;
-}
-
 .verticalWrapper {
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 40px;
+    padding-bottom: 40px;
 }
 
 .horizontalWrapper {
@@ -230,6 +222,7 @@ h3 {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    gap: 20px;
 }
 
 .inputWrapper {
@@ -240,15 +233,12 @@ h3 {
     gap: 5px;
 }
 
-
-#updateSavForm h3,
-#updateRefurbForm h3,
-#updateSavForm p,
-#updateRefurbForm p,
-#updateSavForm label,
-#updateRefurbForm label {
-    color: white;
-    margin: 10px;
+#logLister {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
 }
 
 .logCard {
@@ -257,9 +247,10 @@ h3 {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    gap: 5px;
     border: 1px solid white;
     border-radius: 15px;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 5px;
 }
 
@@ -274,11 +265,58 @@ h3 {
 .interventionCard {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    background-color: rgb(227, 183, 174);
+    gap: 5px;
 }
 
-.interventionCard.isDone {
-    background-color: rgb(178, 224, 186);
+.interventionCard p {
+    text-align: center;
+    background-color: rgb(231, 198, 191);
+    border-radius: 10px;
+    padding: 5px;
+    width: 200px;
+    color: var(--color-font);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.interventionCard.isDone p {
+    background-color: rgb(191, 224, 196);
+}
+
+
+.interventionCard button {
+    border-radius: 10px;
+}
+
+#logCreator {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    border: solid 1px white;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+#modalToUpdateSAV {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#updateSAVInfosForm,
+#updateSAVLogForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border-top: solid 1px white;
+    border-radius: 20px;
+    padding: 20px;
+    min-width: 700px;
 }
