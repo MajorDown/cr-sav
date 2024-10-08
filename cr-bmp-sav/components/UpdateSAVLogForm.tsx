@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { SAV, Intervention, statusList } from "@/constants/types";
+import { SAV, Intervention, statusList, Log } from "@/constants/types";
 import LogCard from "./LogCard";
 import InterventionCard from "./InterventionCard";
 
@@ -12,13 +12,23 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
     const [status, setStatus] = useState<string>(props.actualSav.log[props.actualSav.log.length - 1].status);
     const [newTodo, setNewTodo] = useState<string>("");
     const [newIsDone, setNewIsDone] = useState<boolean>(false);
-    const [interventions, setInterventions] = useState<Intervention[]>(props.actualSav.log[props.actualSav.log.length - 1].interventions);
+    const [log, setLog] = useState<Log[]>(props.actualSav.log);
+    const [newInterventions, setNewInterventions] = useState<Intervention[]>(props.actualSav.log[props.actualSav.log.length - 1].interventions);
 
     const handleCreateIntervention = () => {
-        setInterventions([...interventions, {todo: newTodo, isDone: newIsDone}]);
+        setNewInterventions([...newInterventions, {todo: newTodo, isDone: newIsDone}]);
         setNewTodo("");
         setNewIsDone(false);
     }
+
+    const handleDeleteIntervention = (intervention: Intervention) => {
+        setNewInterventions(newInterventions.filter(i => i !== intervention));
+    }
+
+    const handleUpdateIntervention = (intervention: Intervention) => {
+        const updatedIntervention = { ...intervention, isDone: !intervention.isDone }; // Créer une copie avec la nouvelle valeur
+        setNewInterventions(newInterventions.map(i => i === intervention ? updatedIntervention : i)); // Mettre à jour la liste avec la copie
+    };
 
     const handleCreateLog = (event: FormEvent) => {
         event.preventDefault();
@@ -28,10 +38,10 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
     return (
         <form onSubmit={(e) => handleCreateLog(e)} id={"updateSAVLogForm"}>
             <div id={"logLister"}>
-                {props.actualSav && props.actualSav.log.map((log, index) => (
+                {log.map((log, index) => (
                     <LogCard key={index} log={log} />
                 ))}
-                {props.actualSav && props.actualSav.log.length === 0 && <p>Aucun log pour ce SAV</p>}
+                {log.length === 0 && <p>Aucun log pour ce SAV</p>}
             </div>
             <div id={"logCreator"}>
                 <p>Vous souhaitez actualiser le log ? Remplissez ce formulaire</p>
@@ -48,16 +58,17 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                     />
                 </div>
                 <div id={"interventionsLister"}>
-                    {interventions.map((intervention, index) => (
+                    {newInterventions.map((intervention, index) => (
                         <InterventionCard 
                             key={index} 
                             intervention={intervention} 
-                            onDelete={(intervention) => setInterventions(interventions.filter(i => i !== intervention))} 
+                            onClick={(intervention) => handleUpdateIntervention(intervention)}
+                            onDelete={(intervention) => handleDeleteIntervention(intervention)} 
                         />
                     ))}
-                    {interventions.length === 0 && <p>Aucune intervention à prévoir</p>}
+                    {newInterventions.length === 0 && <p>Aucune intervention à prévoir</p>}
                 </div>
-                <div className={"HorizontalWrapper"}>
+                <div className={"verticalWrapper"}>
                     <div className={"inputWrapper"}>
                         <label htmlFor={"newTodo"}>Nouvelle intervention à prévoir (facultatif) :</label>
                         <input 
@@ -68,10 +79,8 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                             onChange={(e) => setNewTodo(e.target.value)}
                         />
                     </div>
-                </div>
-                <div className="HorizontalWrapper">
                     <div className={"inputWrapper"}>
-                        <label htmlFor={"newIsDone"}>L'intervention est-elle déjà réalisé ?</label>
+                        <label htmlFor={"newIsDone"}>déjà réalisé ?</label>
                         <input 
                             type="checkbox" 
                             id="newIsDone"
@@ -80,6 +89,9 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                         />
                     </div>
                 </div>
+                <button className={"actionBtn"} onClick={() => handleCreateIntervention()}>
+                    Créer cette intervention
+                </button>
                 <div className={"inputWrapper"}>
                     <label htmlFor={"status"}>Statut du SAV :</label>
                     <select
@@ -96,9 +108,6 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                         ))}
                     </select>
                 </div>
-                <button className={"actionBtn"} onClick={() => handleCreateIntervention()}>
-                    Créer cette intervention
-                </button>
             </div>
             <button className={"submit"} type="submit">Actualiser le Log</button>
         </form>
