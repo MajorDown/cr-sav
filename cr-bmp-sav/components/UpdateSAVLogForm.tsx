@@ -1,22 +1,28 @@
 import { FormEvent, useState } from "react";
-import { SAV, Intervention, statusList, Log } from "@/constants/types";
+import { SAV, Intervention, statusList, Log, Status } from "@/constants/types";
 import LogCard from "./LogCard";
 import InterventionCard from "./InterventionCard";
+import { useSAVContext } from "@/contexts/SAVContext";
 
 export type UpdateSAVLogFormProps = {
     actualSav: SAV;
 }
 
 const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
+    const {listOfSAV, updateListOfSAV} = useSAVContext();
     const [report, setReport] = useState<string>("");
-    const [status, setStatus] = useState<string>(props.actualSav.log[props.actualSav.log.length - 1].status);
+    const [status, setStatus] = useState<Status>(props.actualSav.log[props.actualSav.log.length - 1].status);
     const [newTodo, setNewTodo] = useState<string>("");
     const [newIsDone, setNewIsDone] = useState<boolean>(false);
     const [log, setLog] = useState<Log[]>(props.actualSav.log);
     const [newInterventions, setNewInterventions] = useState<Intervention[]>(props.actualSav.log[props.actualSav.log.length - 1].interventions);
 
     const handleCreateIntervention = () => {
-        setNewInterventions([...newInterventions, {todo: newTodo, isDone: newIsDone}]);
+        if (!newTodo.trim()) return;
+        setNewInterventions((prevInterventions) => [
+            ...prevInterventions,
+            { todo: newTodo, isDone: newIsDone }
+        ]);
         setNewTodo("");
         setNewIsDone(false);
     }
@@ -30,9 +36,33 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
         setNewInterventions(newInterventions.map(i => i === intervention ? updatedIntervention : i)); // Mettre à jour la liste avec la copie
     };
 
-    const handleCreateLog = (event: FormEvent) => {
+    const handleCreateLog = async (event: FormEvent) => {
         event.preventDefault();
-        
+        const newLog: Log = {
+            date: new Date(),
+            report: report,
+            status: status,
+            interventions: newInterventions
+        }
+        setLog([...log, newLog]);
+        setReport("");
+        setStatus("en réparation");
+        setNewInterventions((prevInterventions) => [
+            ...prevInterventions
+        ]);
+        const updateSavLog = await fetch("/api/sav/updateLog", {
+            method: "PUT",
+            body: JSON.stringify({ id: props.actualSav.id, log: newLog }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (updateSavLog.ok) console.log("Log actualisé avec succès");
+        else console.error("Erreur lors de l'actualisation du log");
+        if (listOfSAV) {
+            const updatedListOfSAV = listOfSAV.map(sav => sav.id === props.actualSav.id ? {...sav, log: [...sav.log, newLog]} : sav);
+            updateListOfSAV(updatedListOfSAV);
+        }
     }
 
     return (
@@ -89,7 +119,7 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                         />
                     </div>
                 </div>
-                <button className={"actionBtn"} onClick={() => handleCreateIntervention()}>
+                <button className={"actionBtn"} type={"button"} onClick={() => handleCreateIntervention()}>
                     Créer cette intervention
                 </button>
                 <div className={"inputWrapper"}>
@@ -99,7 +129,7 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                         name="status"
                         id="status"
                         value={status}
-                        onChange={(e) => setStatus(e.target.value)}
+                        onChange={(e) => setStatus(e.target.value as Status)}
                     >
                         {statusList.map((status, index) => (
                             <option key={index} value={status}>

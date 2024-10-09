@@ -24,16 +24,16 @@ async function updateSAVLog(id: string, Log: Log): Promise<SAV> {
 }
 
 // Fonction UPDATE pour actualiser le log d'un SAV
-export async function UPDATE(request: Request) {
+export async function PUT(request: Request) {
     const { id, log } = await request.json();
-    console.log(`api/sav/updateLog} ~> actualisation du log du SAV ${id}`);
+    console.log(`api/sav/updateLog ~> actualisation du log du SAV ${id}`);
   
     try {
         // récupération de la liste des SAV par corner via prisma
         const isLogUpdated: SAV = await updateSAVLog(id, log);
         return NextResponse.json(isLogUpdated, { status: 200 });
     } catch (error) {
-        console.log(`api/sav/getByCorner/${id} ~> error :`, error);
+        console.log(`api/sav/updateLog ~> error :`, error);
         return NextResponse.json("échec de la récupération des SAV", { status: 500 });
     }
 }
