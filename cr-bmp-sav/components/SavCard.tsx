@@ -12,7 +12,7 @@ const SavCard = (props: SavCardProps) => {
     useEffect(() => {
         switch (props.sav.log[props.sav.log.length - 1].status) {
             case "livré":
-                setStatus("delivered")
+                setStatus("released")
                 break;
             case "réparé":
                 setStatus("repaired")
@@ -73,8 +73,8 @@ const SavCard = (props: SavCardProps) => {
                 />
                 <Image 
                     src={"/images/livré.png"} 
-                    width={status === "delivered" ? 36 : 24} 
-                    height={status === "delivered" ? 36 : 24} 
+                    width={status === "released" ? 36 : 24} 
+                    height={status === "released" ? 36 : 24} 
                     alt="livré"
                 />
             </div>

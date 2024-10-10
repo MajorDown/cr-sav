@@ -67,10 +67,6 @@ select {
     gap: 10px;
 }
 
-h2 {
-    margin-bottom: 10px;
-}
-
 .modeBtn,
 .updateBtn {
     width: 150px;
@@ -133,6 +129,21 @@ button.submit {
 #savLister,
 #refurbLister {
     width: 100%;
+}
+
+#savListerTitle,
+#refurbListerTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#savListerTitle input,
+#refurbListerTitle input {
+    margin: 5px;
 }
 
 .savCard,

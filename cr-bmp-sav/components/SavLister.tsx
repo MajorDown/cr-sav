@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useCornerContext } from "@/contexts/CornerContext"
 import { useSAVContext } from "@/contexts/SAVContext"
 import SavCard from "./SavCard"
@@ -9,6 +9,7 @@ import ModalToUpdateSav from "./ModalToUpdateSav"
 const SavLister = () => {
     const { actualCorner } = useCornerContext()
     const { listOfSAV } = useSAVContext()
+    const [wantDisplayReleased, setWantDisplayReleased] = useState<boolean>(false)
     const [wantUpdateSAV, setWantUpdateSAV] = useState<boolean>(false);
     const [SavToUpdate, setSavToUpdate] = useState<SAV | null>(null);
 
@@ -16,17 +17,34 @@ const SavLister = () => {
       setWantUpdateSAV(true);    
       setSavToUpdate(sav);
     }
+    // fonction pour n'afficher que les SAV qui ne sont pas encore livrés
+    const savNotReleased: SAV[] = listOfSAV?.filter(sav => sav.log[sav.log.length - 1].status !== "livré") || []
 
   return (
     <section id={"savLister"}>
         {wantUpdateSAV && SavToUpdate !=null && 
           <ModalToUpdateSav SAV={SavToUpdate} onClose={() => setWantUpdateSAV(false)}/>
         }
-        {actualCorner && <h2>Liste des SAV pour {actualCorner.cornerName}</h2>}
-        {listOfSAV && listOfSAV.length > 0 && listOfSAV.map(sav => (
+        {actualCorner && <div id={"savListerTitle"}>
+            <h2>Liste des SAV pour {actualCorner.cornerName}</h2>
+            <label htmlFor="wantDisplayReleased">afficher les SAV déjà livré ? 
+              <input 
+                type="checkbox"
+                id="wantdisplayReleased" 
+                value={wantDisplayReleased.toString()}
+                onChange={() => setWantDisplayReleased(!wantDisplayReleased)}
+              />
+            </label>
+          </div>
+          }
+        {listOfSAV && listOfSAV.length > 0 && wantDisplayReleased && listOfSAV.map(sav => (
             <SavCard key={sav.id} sav={sav} onDoubleClic={() => handleUpdateSAV(sav)}/>
         ))}
-        {(!listOfSAV || listOfSAV.length === 0) && <p>Aucun SAV en cours</p>}
+        {listOfSAV && listOfSAV.length > 0 && !wantDisplayReleased && savNotReleased.map(sav => (
+            <SavCard key={sav.id} sav={sav} onDoubleClic={() => handleUpdateSAV(sav)}/>
+        ))}
+        {(!listOfSAV || listOfSAV.length === 0) && !wantDisplayReleased && <p>Aucun SAV enregistré</p>}
+        {!wantDisplayReleased && savNotReleased.length === 0 && <p>Aucun SAV en cours</p>}
     </section>
   )
 }
