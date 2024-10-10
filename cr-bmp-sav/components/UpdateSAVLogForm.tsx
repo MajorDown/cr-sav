@@ -16,6 +16,7 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
     const [newIsDone, setNewIsDone] = useState<boolean>(false);
     const [log, setLog] = useState<Log[]>(props.actualSav.log);
     const [newInterventions, setNewInterventions] = useState<Intervention[]>(props.actualSav.log[props.actualSav.log.length - 1].interventions);
+    const [errorMsg, setErrorMsg] = useState<string>("");
 
     const handleCreateIntervention = () => {
         if (!newTodo.trim()) return;
@@ -57,11 +58,12 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                 "Content-Type": "application/json",
             },
         });
-        if (updateSavLog.ok) console.log("Log actualisé avec succès");
-        else console.error("Erreur lors de l'actualisation du log");
-        if (listOfSAV) {
+        if (updateSavLog.ok && listOfSAV) {
             const updatedListOfSAV = listOfSAV.map(sav => sav.id === props.actualSav.id ? {...sav, log: [...sav.log, newLog]} : sav);
             updateListOfSAV(updatedListOfSAV);
+        }
+        else {
+            setErrorMsg("Une erreur est survenue lors de la mise à jour du log")
         }
     }
 
@@ -140,6 +142,7 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
                 </div>
             </div>
             <button className={"submit"} type="submit">Actualiser le Log</button>
+            {errorMsg && <p>{errorMsg}</p>}
         </form>
     )
 }
