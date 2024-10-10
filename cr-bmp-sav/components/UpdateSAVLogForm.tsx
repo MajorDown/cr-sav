@@ -61,9 +61,10 @@ const UpdateSAVLogForm = (props: UpdateSAVLogFormProps) => {
         if (updateSavLog.ok && listOfSAV) {
             const updatedListOfSAV = listOfSAV.map(sav => sav.id === props.actualSav.id ? {...sav, log: [...sav.log, newLog]} : sav);
             updateListOfSAV(updatedListOfSAV);
+            alert(`Le log du SAV ${props.actualSav.id} a bien été mis à jour`);
         }
         else {
-            setErrorMsg("Une erreur est survenue lors de la mise à jour du log")
+            alert("Une erreur est survenue lors de la mise à jour du log. Veuillez réessayer plus tard")
         }
     }
 

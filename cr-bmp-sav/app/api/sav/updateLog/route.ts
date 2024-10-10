@@ -2,7 +2,12 @@ import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { Contact, Log, ProductToSAV, SAV } from "@/constants/types";
 
-// Fonction pour actualiser le log d'un SAV
+/**
+ * fonction pour actualiser le log d'un SAV
+ * @param id - string
+ * @param Log - Log
+ * @returns Promise<SAV>
+ */
 async function updateSAVLog(id: string, Log: Log): Promise<SAV> {
     // update du log du SAV
     let sav = await prisma.sAV.update({
