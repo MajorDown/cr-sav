@@ -1,10 +1,11 @@
 'use client'
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useCornerContext } from "@/contexts/CornerContext"
 import { useSAVContext } from "@/contexts/SAVContext"
 import SavCard from "./SavCard"
 import { SAV } from "@/constants/types"
 import ModalToUpdateSav from "./ModalToUpdateSav"
+import ModalToCreateSav from "./ModalToCreateSav"
 
 const SavLister = () => {
     const { actualCorner } = useCornerContext()
@@ -12,6 +13,7 @@ const SavLister = () => {
     const [wantDisplayReleased, setWantDisplayReleased] = useState<boolean>(false)
     const [wantUpdateSAV, setWantUpdateSAV] = useState<boolean>(false);
     const [SavToUpdate, setSavToUpdate] = useState<SAV | null>(null);
+    const [wantCreateSAV, setWantCreateSAV] = useState<boolean>(false);
 
     const handleUpdateSAV = (sav: SAV) => {
       setWantUpdateSAV(true);    
@@ -22,6 +24,7 @@ const SavLister = () => {
 
   return (
     <section id={"savLister"}>
+        {wantCreateSAV && <ModalToCreateSav onClose={() => setWantCreateSAV(false)}/>}
         {wantUpdateSAV && SavToUpdate !=null && 
           <ModalToUpdateSav SAV={SavToUpdate} onClose={() => setWantUpdateSAV(false)}/>
         }
