@@ -1,7 +1,8 @@
-import { categoriesList, constructorsList, SAV } from "@/constants/types"
+import { categoriesList, constructorsList, SAV, Status, statusList } from "@/constants/types"
 import Modal from "./Modal"
 import { FormEvent, useState } from "react"
 import { useSAVContext } from "@/contexts/SAVContext"
+import InterventionCard from "./InterventionCard"
 
 export type ModalToCreateSavProps = {
     onClose: (isClosed: boolean) => void
@@ -33,6 +34,19 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
             }
         ]
     })
+
+    const handleCreateIntervention = () => {
+        setNewSav({...newSav, log: [{...newSav.log[0], interventions: [...newSav.log[0].interventions, newSav.log[0].interventions[0]]}]})
+    }
+
+    const handleUpdateIntervention = (intervention: any) => {
+        const updatedIntervention = { ...intervention, isDone: !intervention.isDone }
+        setNewSav({...newSav, log: [{...newSav.log[0], interventions: newSav.log[0].interventions.map((i: any) => i === intervention ? updatedIntervention : i)}]})
+    }
+
+    const handleDeleteIntervention = (intervention: any) => {
+        setNewSav({...newSav, log: [{...newSav.log[0], interventions: newSav.log[0].interventions.filter((i: any) => i !== intervention)}]})
+    }
 
     const handleSubmit = async (event: FormEvent) => {}
 
@@ -159,15 +173,15 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                             <textarea
                                 id="report"
                                 placeholder="écran noir, bouton power HS, etc."
-                                value={report}
-                                onChange={(e) => setReport(e.target.value)}
+                                value={newSav.log[0].report}
+                                onChange={(e) => setNewSav({...newSav, log: [{...newSav.log[0], report: e.target.value}]})}
                                 maxLength={200}
                                 rows={2} 
                                 cols={40}
                             />
                         </div>
                         <div id={"interventionsLister"}>
-                            {newInterventions.map((intervention, index) => (
+                            {newSav.log[0].interventions.map((intervention, index) => (
                                 <InterventionCard 
                                     key={index} 
                                     intervention={intervention} 
@@ -175,7 +189,6 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                     onDelete={(intervention) => handleDeleteIntervention(intervention)} 
                                 />
                             ))}
-                            {newInterventions.length === 0 && <p>Aucune intervention à prévoir</p>}
                         </div>
                         <div className={"verticalWrapper"}>
                             <div className={"inputWrapper"}>
@@ -184,8 +197,8 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                     type="text" 
                                     id="newTodo"
                                     placeholder="changer l'écran, vérifier la batterie, etc."
-                                    value={newTodo}
-                                    onChange={(e) => setNewTodo(e.target.value)}
+                                    value={newSav.log[0].interventions[0].todo}
+                                    onChange={(e) => setNewSav({...newSav, log: [{...newSav.log[0], interventions: [{...newSav.log[0].interventions[0], todo: e.target.value}]}]})}
                                 />
                             </div>
                             <div className={"inputWrapper"}>
@@ -193,8 +206,8 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                 <input 
                                     type="checkbox" 
                                     id="newIsDone"
-                                    checked={newIsDone}
-                                    onChange={(e) => setNewIsDone(e.target.checked)}
+                                    checked={newSav.log[0].interventions[0].isDone}
+                                    onChange={(e) => setNewSav({...newSav, log: [{...newSav.log[0], interventions: [{...newSav.log[0].interventions[0], isDone: e.target.checked}]}]})}
                                 />
                             </div>
                         </div>
@@ -207,8 +220,8 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                 required
                                 name="status"
                                 id="status"
-                                value={status}
-                                onChange={(e) => setStatus(e.target.value as Status)}
+                                value={newSav.log[0].status}
+                                onChange={(e) => setNewSav({...newSav, log: [{...newSav.log[0], status: e.target.value as Status}]})}
                             >
                                 {statusList.map((status, index) => (
                                     <option key={index} value={status}>
@@ -216,7 +229,7 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                     </option>
                                 ))}
                             </select>
-                         </div>
+                        </div>
                     </div>
                 </form>                
             </div>
