@@ -48,7 +48,25 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
         setNewSav({...newSav, log: [{...newSav.log[0], interventions: newSav.log[0].interventions.filter((i: any) => i !== intervention)}]})
     }
 
-    const handleSubmit = async (event: FormEvent) => {}
+    const handleSubmit = async (event: FormEvent) => {
+        event.preventDefault();
+        const newSavToCreate = newSav;
+        const createSav = await fetch("/api/sav/create", {
+            method: "POST",
+            body: JSON.stringify({ newSav: newSavToCreate }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (createSav.ok) {
+            const createdSav = await createSav.json();
+            alert(`Le SAV ${createdSav.id} a bien été créé`);
+            updateListOfSAV(listOfSAV ? [...listOfSAV, createdSav] : [createdSav]);
+            props.onClose(true);
+        } else {
+            alert("Une erreur est survenue lors de la création du SAV. Veuillez réessayer plus tard.");
+        }
+    }
 
     return (
         <Modal onClose={props.onClose}>
@@ -166,10 +184,11 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                             </div>
                         </div>
                     </div>
+                    <div className={"horizontalWrapper"} >
                     <div id={"logCreator"}>
-                        <p>Remplissez ce formulaire pour établir le premier Log</p>
+                        <p>Remplissez ce formulaire pour établir le premier log du SAV</p>
                         <div className={"inputWrapper"}>
-                            <label htmlFor={"report"}>Rapport de la mise à jour :</label>
+                            <label htmlFor={"report"}>Constat justifiant le SAV :</label>
                             <textarea
                                 id="report"
                                 placeholder="écran noir, bouton power HS, etc."
@@ -197,7 +216,7 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                     type="text" 
                                     id="newTodo"
                                     placeholder="changer l'écran, vérifier la batterie, etc."
-                                    value={newSav.log[0].interventions[0].todo}
+                                    value={newSav.log[0].interventions[0]?.todo || ""}
                                     onChange={(e) => setNewSav({...newSav, log: [{...newSav.log[0], interventions: [{...newSav.log[0].interventions[0], todo: e.target.value}]}]})}
                                 />
                             </div>
@@ -206,7 +225,7 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                 <input 
                                     type="checkbox" 
                                     id="newIsDone"
-                                    checked={newSav.log[0].interventions[0].isDone}
+                                    checked={newSav.log[0].interventions[0]?.isDone || false}
                                     onChange={(e) => setNewSav({...newSav, log: [{...newSav.log[0], interventions: [{...newSav.log[0].interventions[0], isDone: e.target.checked}]}]})}
                                 />
                             </div>
@@ -231,6 +250,9 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                             </select>
                         </div>
                     </div>
+
+                    </div>
+                    <button className={"submit"} type="submit">Créer le SAV</button>
                 </form>                
             </div>
         </Modal>

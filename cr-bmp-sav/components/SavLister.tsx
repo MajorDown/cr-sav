@@ -1,5 +1,6 @@
 'use client'
 import { useState } from "react"
+import Image from "next/image"
 import { useCornerContext } from "@/contexts/CornerContext"
 import { useSAVContext } from "@/contexts/SAVContext"
 import SavCard from "./SavCard"
@@ -30,6 +31,9 @@ const SavLister = () => {
         }
         {actualCorner && <div id={"savListerTitle"}>
             <h2>Liste des SAV pour {actualCorner.cornerName}</h2>
+            <button className={"addBtn"} onClick={() => setWantCreateSAV(true)}>
+              <Image src={"/images/add.png"} alt={"Créer un SAV"} width={32} height={32}/>
+            </button>
             <label htmlFor="wantDisplayReleased">afficher les SAV déjà livré ? 
               <input 
                 type="checkbox"
