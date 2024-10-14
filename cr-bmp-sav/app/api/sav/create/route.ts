@@ -12,6 +12,7 @@ async function createSAV(newSav: SAV): Promise<SAV> {
     // création du SAV dans la base de donnée avec prisma
     let sav = await prisma.sAV.create({
         data: {
+            id: newSav.id,
             corner: newSav.corner,
             clientName: newSav.clientName,
             clientContact: JSON.stringify(newSav.clientContact),

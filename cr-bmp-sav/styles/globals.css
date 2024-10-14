@@ -92,6 +92,7 @@ button.submit {
     margin-top: 30px;
     padding: 10px;
     border-radius: 15px;
+    cursor: pointer;
 }
 
 #mainViewer {
@@ -395,11 +396,20 @@ h3 {
     padding: 10px;
 }
 
-#modalToUpdateSAV {
+#modalToUpdateSAV,
+#modalToCreateSAV {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+}
+
+#createSAVForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
 }
 
 #updateSAVInfosForm,

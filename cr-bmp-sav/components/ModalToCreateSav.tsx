@@ -1,18 +1,22 @@
-import { categoriesList, constructorsList, SAV, Status, statusList } from "@/constants/types"
+import { categoriesList, constructorsList, Intervention, ProductCategory, ProductConstructor, SAV, Status, statusList } from "@/constants/types"
 import Modal from "./Modal"
 import { FormEvent, useState } from "react"
 import { useSAVContext } from "@/contexts/SAVContext"
+import { useCornerContext } from "@/contexts/CornerContext"
 import InterventionCard from "./InterventionCard"
+import idMaker from "@/constants/idMaker"
 
 export type ModalToCreateSavProps = {
     onClose: (isClosed: boolean) => void
 }
 
 const ModalToCreateSav = (props: ModalToCreateSavProps) => {
-    const { listOfSAV, updateListOfSAV } = useSAVContext()
+    const { listOfSAV, updateListOfSAV } = useSAVContext();
+    const { actualCorner } = useCornerContext();
+    const [newIntervention, setNewIntervention] = useState<Intervention>({todo: "", isDone: false})
     const [newSav, setNewSav] = useState<SAV>({
-        id: Math.random().toString(),
-        corner: "",
+        id: idMaker(),
+        corner: actualCorner ? actualCorner.id : "",
         clientName: "",
         clientContact: {
             email: "",
@@ -36,7 +40,8 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
     })
 
     const handleCreateIntervention = () => {
-        setNewSav({...newSav, log: [{...newSav.log[0], interventions: [...newSav.log[0].interventions, newSav.log[0].interventions[0]]}]})
+        setNewSav({...newSav, log: [{...newSav.log[0], interventions: [...newSav.log[0].interventions, newIntervention]}]})
+        setNewIntervention({todo: "", isDone: false})
     }
 
     const handleUpdateIntervention = (intervention: any) => {
@@ -50,10 +55,9 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const newSavToCreate = newSav;
         const createSav = await fetch("/api/sav/create", {
             method: "POST",
-            body: JSON.stringify({ newSav: newSavToCreate }),
+            body: JSON.stringify({ newSAV: newSav }),
             headers: {
                 "Content-Type": "application/json",
             },
@@ -72,7 +76,7 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
         <Modal onClose={props.onClose}>
             <div id={"modalToCreateSAV"}>
                 <h3>Nouveau SAV</h3>
-                <form onSubmit={(e) => handleSubmit(e)}>
+                <form id={"createSAVForm"} onSubmit={(e) => handleSubmit(e)}>
                     <div className="verticalWrapper">
                         <div className={"horizontalWrapper"}>
                             <p>Produit concerné :</p>
@@ -83,7 +87,7 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                     name="category"
                                     id="category"
                                     value={newSav.product.category}
-                                    onChange={() => setNewSav({...newSav, product: {...newSav.product, category: newSav.product.category}})}
+                                    onChange={(e) => setNewSav({...newSav, product: {...newSav.product, category: e.target.value as ProductCategory}})}
                                 >
                                     {categoriesList.map((category, index) => (
                                         <option key={index} value={category}>
@@ -99,7 +103,7 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                     name="pieceMark"
                                     id="pieceMark"
                                     value={newSav.product.constructor}
-                                    onChange={() => setNewSav({...newSav, product: {...newSav.product, constructor: newSav.product.constructor}})}
+                                    onChange={(e) => setNewSav({...newSav, product: {...newSav.product, constructor: e.target.value as ProductConstructor}})}
                                 >
                                     {constructorsList.map((constructor, index) => (
                                         <option key={index} value={constructor}>
@@ -184,7 +188,6 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                             </div>
                         </div>
                     </div>
-                    <div className={"horizontalWrapper"} >
                     <div id={"logCreator"}>
                         <p>Remplissez ce formulaire pour établir le premier log du SAV</p>
                         <div className={"inputWrapper"}>
@@ -216,8 +219,8 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                     type="text" 
                                     id="newTodo"
                                     placeholder="changer l'écran, vérifier la batterie, etc."
-                                    value={newSav.log[0].interventions[0]?.todo || ""}
-                                    onChange={(e) => setNewSav({...newSav, log: [{...newSav.log[0], interventions: [{...newSav.log[0].interventions[0], todo: e.target.value}]}]})}
+                                    value={newIntervention.todo}
+                                    onChange={(e) => setNewIntervention({...newIntervention, todo: e.target.value})}
                                 />
                             </div>
                             <div className={"inputWrapper"}>
@@ -225,8 +228,8 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                 <input 
                                     type="checkbox" 
                                     id="newIsDone"
-                                    checked={newSav.log[0].interventions[0]?.isDone || false}
-                                    onChange={(e) => setNewSav({...newSav, log: [{...newSav.log[0], interventions: [{...newSav.log[0].interventions[0], isDone: e.target.checked}]}]})}
+                                    checked={newIntervention.isDone}
+                                    onChange={(e) => setNewIntervention({...newIntervention, isDone: e.target.checked})}
                                 />
                             </div>
                         </div>
@@ -249,8 +252,6 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
                                 ))}
                             </select>
                         </div>
-                    </div>
-
                     </div>
                     <button className={"submit"} type="submit">Créer le SAV</button>
                 </form>                
