@@ -44,11 +44,15 @@ export default function Home() {
     <div id={"modeSelector"}>
       <button className={mode === "sav" ? "modeBtn isActive" : "modeBtn"} onClick={() => setMode("sav")}>
         <p>SAV</p>
-        <p>({listOfSAV?.length || 0} en attente)</p>
+        <p>
+          ({listOfSAV?.filter(sav => sav.log[sav.log.length - 1].status !== "livré").length || 0}/{listOfSAV?.length || 0} en attente)
+        </p>
       </button>
       <button className={mode === "refurb" ? "modeBtn isActive" : "modeBtn"} onClick={() => setMode("refurb")}>
         <p>Reconditionnement</p>
-        <p>({listOfRefurb?.length || 0} en attente)</p>
+        <p>
+          ({listOfRefurb?.filter(refurb => refurb.log[refurb.log.length - 1].status !== "livré").length || 0}/{listOfRefurb?.length || 0} en attente)
+        </p>
       </button>
     </div>
     {mode != null && <div id={"pointerSpace"}>

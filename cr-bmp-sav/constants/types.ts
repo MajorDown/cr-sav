@@ -34,7 +34,7 @@ export type Product = {
     informations: string
 }
 
-export const statusList = ["livré", "réparé", "en réparation", "pièces en attente", "commande en attente"] as const
+export const statusList = ["livré", "réparé", "en réparation", "client en attente", "pièces en attente", "commande en attente"] as const
 
 export type Status = typeof statusList[number]
 
@@ -42,7 +42,6 @@ export type Intervention = {
     todo: string,
     isDone: boolean
 }
-
 
 export type Log = {
     date: Date,

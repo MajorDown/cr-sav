@@ -205,7 +205,12 @@ button.submit {
 .savCard.waitingOrder,
 .refurbCard.waitingPiece,
 .refurbCard.waitingOrder {
-    background-color: rgb(221, 195, 161);
+    background-color: rgb(234, 201, 186);
+}
+
+.savCard.waitingClient,
+.refurbCard.waitingClient {
+    background-color: rgb(221, 200, 161);
 }
 
 .savCard.inRepair,

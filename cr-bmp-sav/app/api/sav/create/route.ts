@@ -4,8 +4,7 @@ import { SAV } from "@/constants/types";
 
 /**
  * fonction pour créer un SAV
- * @param id - string
- * @param Log - Log
+ * @param newSav - SAV
  * @returns Promise<SAV>
  */
 async function createSAV(newSav: SAV): Promise<SAV> {

@@ -20,6 +20,9 @@ const SavCard = (props: SavCardProps) => {
             case "en réparation":
                 setStatus("inRepair")
                 break;
+            case "client en attente":
+                setStatus("waitingClient")
+                break;
             case "pièces en attente":
                 setStatus("waitingPiece")
                 break;
@@ -58,6 +61,12 @@ const SavCard = (props: SavCardProps) => {
                     width={status === "waitingPiece" ? 36 : 24} 
                     height={status === "waitingPiece" ? 36 : 24} 
                     alt="en attente pièce"
+                />
+                <Image 
+                    src={"/images/en_attente_client.png"} 
+                    width={status === "waitingClient" ? 36 : 24} 
+                    height={status === "waitingClient" ? 36 : 24} 
+                    alt="client en attente"
                 />
                 <Image 
                     src={"/images/en_réparation.png"} 
