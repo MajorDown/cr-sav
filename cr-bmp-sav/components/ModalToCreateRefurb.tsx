@@ -36,13 +36,38 @@ const ModalToCreateSav = (props: ModalToUpdateSavProps) => {
         ]
     })
 
-    const handleCreateIntervention = () => {}
+    const handleCreateIntervention = () => {
+        setNewRefurb({...newRefurb, log: [{...newRefurb.log[0], interventions: [...newRefurb.log[0].interventions, newIntervention]}]})
+        setNewIntervention({todo: "", isDone: false})
+    }
 
-    const handleUpdateIntervention = (intervention: any) => {}
+    const handleUpdateIntervention = (intervention: Intervention) => {
+        const updatedIntervention = { ...intervention, isDone: !intervention.isDone }
+        setNewRefurb({...newRefurb, log: [{...newRefurb.log[0], interventions: newRefurb.log[0].interventions.map((i) => i === intervention ? updatedIntervention : i)}]})
+    }
 
-    const handleDeleteIntervention = (intervention: any) => {}
+    const handleDeleteIntervention = (intervention: Intervention) => {
+        setNewRefurb({...newRefurb, log: [{...newRefurb.log[0], interventions: newRefurb.log[0].interventions.filter((i) => i !== intervention)}]})
+    }
 
-    const handleSubmit = async (event: FormEvent) => {}
+    const handleSubmit = async (event: FormEvent) => {
+        event.preventDefault();
+        const createRefurb = await fetch("/api/refurb/create", {
+            method: "POST",
+            body: JSON.stringify({ newRefurb: newRefurb }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (createRefurb.ok) {
+            const createdRefurb = await createRefurb.json();
+            alert(`Le reconditionnement ${createdRefurb.id} a bien été créé`);
+            updateListOfRefurb(listOfRefurb ? [...listOfRefurb, createdRefurb] : [createdRefurb]);
+            props.onClose(true);
+        } else {
+            alert("Une erreur est survenue lors de la création du reconditionnement. Veuillez réessayer plus tard.");
+        }
+    }
 
     return (
         <Modal onClose={props.onClose}>
