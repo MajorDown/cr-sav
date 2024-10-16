@@ -8,11 +8,11 @@ export type ModalToUpdateSavProps = {
     onClose: (isClosed: boolean) => void
 }
 
-const ModalToUpdateSav = (props: ModalToUpdateSavProps) => {
+const ModalToUpdateRefurb = (props: ModalToUpdateSavProps) => {
 
     return (
         <Modal onClose={props.onClose}>
-            <div id={"modalToUpdateSAV"}>
+            <div id={"modalToUpdateRefurb"}>
                 <h3>Reconditionnement n°{props.refurb && props.refurb.id}</h3>
 
             </div>
@@ -20,4 +20,4 @@ const ModalToUpdateSav = (props: ModalToUpdateSavProps) => {
     )
 }
 
-export default ModalToUpdateSav;
+export default ModalToUpdateRefurb;
