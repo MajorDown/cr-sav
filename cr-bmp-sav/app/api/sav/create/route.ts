@@ -22,7 +22,7 @@ async function createSAV(newSav: SAV): Promise<SAV> {
     return newSav;
 }
 
-// Fonction UPDATE pour actualiser le log d'un SAV
+// Fonction POST pour actualiser le log d'un SAV
 export async function POST(request: Request) {
     const { newSAV } = await request.json();
     console.log(`api/sav/create ~> création d'un nouveau SAV en cour : ${newSAV.id}`); 

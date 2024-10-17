@@ -148,9 +148,9 @@ const ModalToCreateSav = (props: ModalToUpdateSavProps) => {
                         </div>
                     </div>
                     <div id={"logCreator"}>
-                        <p>Remplissez ce formulaire pour établir le premier log du SAV</p>
+                        <p>Remplissez ce formulaire pour établir le premier log du reconditionnement</p>
                         <div className={"inputWrapper"}>
-                            <label htmlFor={"report"}>Constat justifiant le SAV :</label>
+                            <label htmlFor={"report"}>Constat justifiant les interventions :</label>
                             <textarea
                                 id="report"
                                 placeholder="écran noir, bouton power HS, etc."
@@ -196,7 +196,7 @@ const ModalToCreateSav = (props: ModalToUpdateSavProps) => {
                             Créer cette intervention
                         </button>
                         <div className={"inputWrapper"}>
-                            <label htmlFor={"status"}>Statut du SAV :</label>
+                            <label htmlFor={"status"}>Statut du reconditionnement :</label>
                             <select
                                 required
                                 name="status"
@@ -212,7 +212,7 @@ const ModalToCreateSav = (props: ModalToUpdateSavProps) => {
                             </select>
                         </div>
                     </div>
-                    <button className={"submit"} type="submit">Créer le SAV</button>
+                    <button className={"submit"} type="submit">Créer le reconditionnement</button>
                 </form>
 
             </div>
