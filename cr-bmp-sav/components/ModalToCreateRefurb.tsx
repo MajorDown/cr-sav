@@ -6,7 +6,6 @@ import { useCornerContext } from "@/contexts/CornerContext"
 import idMaker from "@/constants/idMaker"
 import InterventionCard from "./InterventionCard"
 
-
 export type ModalToUpdateSavProps = {
     onClose: (isClosed: boolean) => void
 }
