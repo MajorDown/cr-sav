@@ -18,12 +18,6 @@ const CornerSelector = () => {
         }
         const cornersList: Corner[] = await response.json()
         setListOfCorners(cornersList)
-
-        // Définir le corner par défaut comme étant le premier de la liste
-        if (cornersList.length > 0) {
-          setSelectedCornerId(cornersList[0].id)
-          updateActualCorner(cornersList[0])
-        }
       } catch (error) {
         console.error('Erreur:', error)
       }
@@ -34,10 +28,30 @@ const CornerSelector = () => {
   // Gère le changement de sélection dans le select
   const handleCornerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = event.target.value
-    setSelectedCornerId(selectedId)
-    const selectedCorner = listOfCorners.find(corner => corner.id === selectedId)
-    if (selectedCorner) {
-      updateActualCorner(selectedCorner)
+    let enteredPassword: string | null = "";
+    // Si l'utilisateur a choisi un corner dans la liste autre que ""
+    if (selectedId) {
+      const selectedCorner = listOfCorners.find(corner => corner.id === selectedId)
+      if (selectedCorner) {
+        enteredPassword = prompt(`Entrez le mot de passe pour le corner ${selectedCorner.cornerName}`)
+        if (enteredPassword === null) {
+          return
+        }
+        // Si le mot de passe est correct, on met à jour le corner actuel
+        if (enteredPassword === selectedCorner.id) {
+          setSelectedCornerId(selectedId)
+          updateActualCorner(selectedCorner)
+        } else {
+          alert("Mot de passe incorrect")
+          setSelectedCornerId("");
+          updateActualCorner(null);
+        }
+      }
+    } 
+    // Si l'utilisateur a choisi "" dans la liste
+    else {
+      setSelectedCornerId("")
+      updateActualCorner(null)
     }
   }
 
@@ -49,6 +63,7 @@ const CornerSelector = () => {
         value={selectedCornerId}
         onChange={handleCornerChange}
       >
+        <option value={""}>--Choisissez un corner--</option>
         {listOfCorners.map(corner => (
           <option key={corner.id} value={corner.id}>
             {corner.cornerName}

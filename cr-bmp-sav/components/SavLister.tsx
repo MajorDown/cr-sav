@@ -26,9 +26,7 @@ const SavLister = () => {
   return (
     <section id={"savLister"}>
         {wantCreateSAV && <ModalToCreateSav onClose={() => setWantCreateSAV(false)}/>}
-        {wantUpdateSAV && SavToUpdate !=null && 
-          <ModalToUpdateSav SAV={SavToUpdate} onClose={() => setWantUpdateSAV(false)}/>
-        }
+        {wantUpdateSAV && SavToUpdate !=null && <ModalToUpdateSav SAV={SavToUpdate} onClose={() => setWantUpdateSAV(false)}/>}
         {actualCorner && <div id={"savListerTitle"}>
             <h2>Liste des SAV pour {actualCorner.cornerName}</h2>
             <button className={"addBtn"} onClick={() => setWantCreateSAV(true)}>

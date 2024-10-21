@@ -16,28 +16,34 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    //récupération des SAV
-    const getSAVList = async () => {
+    if (actualCorner === null) {
+      updateListOfSAV([]);
+      updateListOfRefurb([]);
+    }
+    else {
+      //récupération des SAV
+      const getSAVList = async () => {
+          if (actualCorner) {
+              setIsLoading(true)
+              const response = await fetch(`/api/sav/getByCorner/${actualCorner.id}`)
+              if (!response.ok) updateListOfSAV([])
+              else updateListOfSAV(await response.json())
+              setIsLoading(false)
+          }
+      }
+      getSAVList()
+      //récupération des reconditionnements
+      const getRefurbList = async () => {
         if (actualCorner) {
             setIsLoading(true)
-            const response = await fetch(`/api/sav/getByCorner/${actualCorner.id}`)
-            if (!response.ok) updateListOfSAV([])
-            else updateListOfSAV(await response.json())
+            const response = await fetch(`/api/refurb/getByCorner/${actualCorner.id}`)
+            if (!response.ok) updateListOfRefurb([])
+            else updateListOfRefurb(await response.json())
             setIsLoading(false)
         }
-    }
-    getSAVList()
-    //récupération des reconditionnements
-    const getRefurbList = async () => {
-      if (actualCorner) {
-          setIsLoading(true)
-          const response = await fetch(`/api/refurb/getByCorner/${actualCorner.id}`)
-          if (!response.ok) updateListOfRefurb([])
-          else updateListOfRefurb(await response.json())
-          setIsLoading(false)
       }
-  }
-  getRefurbList()
+      getRefurbList()
+    }
   }, [actualCorner])
 
   return (<div>

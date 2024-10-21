@@ -13,7 +13,7 @@ export type Corner = {
 
 export type CornerContext = {
     actualCorner: Corner | null,
-    updateActualCorner: (corner: Corner) => void
+    updateActualCorner: (corner: Corner | null) => void
 }
 
 export const categoriesList = ["smartphone", "tablette", "laptop", "montre connectée", "console"] as const
