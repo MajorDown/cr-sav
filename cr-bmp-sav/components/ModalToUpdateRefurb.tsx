@@ -18,9 +18,19 @@ const ModalToUpdateRefurb = (props: ModalToUpdateSavProps) => {
     const [newRefurb, setNewRefurb] = useState<Refurbishment>(props.refurb)
 
     const handleCreateIntervention = () => {
-        setNewRefurb({...newRefurb, log: [{...newRefurb.log[0], interventions: [...newRefurb.log[0].interventions, newIntervention]}]})
-        setNewIntervention({todo: "", isDone: false})
-    }
+        setNewRefurb({
+            ...newRefurb,
+            log: [
+                {
+                    ...newRefurb.log[0],
+                    interventions: newRefurb.log[0].interventions
+                        ? [...newRefurb.log[0].interventions, newIntervention]
+                        : [newIntervention], // Si 'interventions' est undefined, crée un tableau avec 'newIntervention'
+                }
+            ]
+        });
+        setNewIntervention({todo: "", isDone: false});
+    };
 
     const handleUpdateIntervention = (intervention: Intervention) => {
         const updatedIntervention = { ...intervention, isDone: !intervention.isDone }
@@ -33,20 +43,21 @@ const ModalToUpdateRefurb = (props: ModalToUpdateSavProps) => {
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const createRefurb = await fetch("/api/refurb/create", {
-            method: "POST",
+        const updateRefurb = await fetch("/api/refurb/update", {
+            method: "PUT",
             body: JSON.stringify({ newRefurb: newRefurb }),
             headers: {
                 "Content-Type": "application/json",
             },
         });
-        if (createRefurb.ok) {
-            const createdRefurb = await createRefurb.json();
-            alert(`Le reconditionnement ${createdRefurb.id} a bien été créé`);
-            updateListOfRefurb(listOfRefurb ? [...listOfRefurb, createdRefurb] : [createdRefurb]);
+        if (updateRefurb.ok) {
+            const updatedRefurb = await updateRefurb.json();
+            alert(`Le reconditionnement ${updatedRefurb.id} a bien été actualisé`);
+            //actualisation de la liste des reconditionnements dans le contexte
+            updateListOfRefurb(listOfRefurb?.map(refurb => refurb.id === updatedRefurb.id ? updatedRefurb : refurb) || []);
             props.onClose(true);
         } else {
-            alert("Une erreur est survenue lors de la création du reconditionnement. Veuillez réessayer plus tard.");
+            alert("Une erreur est survenue lors de l'actualisation du reconditionnement. Veuillez réessayer plus tard.");
         }
     }
 
