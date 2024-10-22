@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import Image from 'next/image'
-import Button from './Button'
 import CornerSelector from './CornerSelector'
 
 const Header = () => {
+  const [wantPurge, setWantPurge] = useState<boolean>(false);
+  const handlePurgeData = () => {}
+
   return (
     <header>
       <div id={"title"}>
@@ -15,10 +18,13 @@ const Header = () => {
         <h1>Gestion des SAV et des Reconditionnements</h1>
       </div>
       <div id={"menu"}>
-        <CornerSelector />      
+        <CornerSelector />
+        <button onClick={() => handlePurgeData()}>
+          <Image src={'/images/delete.png'} alt={'purge'} />
+        </button>    
       </div>
     </header>
   )
 }
 
-export default Header
+export default Header;
