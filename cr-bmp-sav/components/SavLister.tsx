@@ -7,6 +7,7 @@ import SavCard from "./SavCard"
 import { SAV } from "@/constants/types"
 import ModalToUpdateSav from "./ModalToUpdateSav"
 import ModalToCreateSav from "./ModalToCreateSav"
+import SAVSearcher from "./SAVSearcher"
 
 const SavLister = () => {
     const { actualCorner } = useCornerContext()
@@ -23,7 +24,12 @@ const SavLister = () => {
     // fonction pour n'afficher que les SAV qui ne sont pas encore livrés
     const savNotReleased: SAV[] = listOfSAV?.filter(sav => sav.log[sav.log.length - 1].status !== "livré") || []
 
-  return (
+  return (<>
+    <section id={"searchBar"}>
+      <SAVSearcher onChangeMode={
+        (mode) => console.log(mode)
+      } />
+    </section>
     <section id={"savLister"}>
         {wantCreateSAV && <ModalToCreateSav onClose={() => setWantCreateSAV(false)}/>}
         {wantUpdateSAV && SavToUpdate !=null && <ModalToUpdateSav SAV={SavToUpdate} onClose={() => setWantUpdateSAV(false)}/>}
@@ -51,6 +57,7 @@ const SavLister = () => {
         {(!listOfSAV || listOfSAV.length === 0) && !wantDisplayReleased && <p>Aucun SAV enregistré</p>}
         {!wantDisplayReleased && savNotReleased.length === 0 && <p>Aucun SAV en cours</p>}
     </section>
+  </>
   )
 }
 
