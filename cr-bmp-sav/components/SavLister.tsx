@@ -13,6 +13,7 @@ const SavLister = () => {
     const { actualCorner } = useCornerContext()
     const { listOfSAV } = useSAVContext()
     const [searchMode, setSearchMode] = useState<"byName" | "byModel">("byName");
+    const [searchValue, setSearchValue] = useState<string>("");
     const [listOfFilteredSAV, setListOfFilteredSAV] = useState<SAV[] | null>(listOfSAV);
     const [wantDisplayReleased, setWantDisplayReleased] = useState<boolean>(false)
     const [wantUpdateSAV, setWantUpdateSAV] = useState<boolean>(false);
@@ -20,8 +21,17 @@ const SavLister = () => {
     const [wantCreateSAV, setWantCreateSAV] = useState<boolean>(false);
 
     useEffect(() => {
-      console.log("listOfSAV :", listOfSAV)
-    }, [listOfSAV])
+      if (searchValue === "") {
+        setListOfFilteredSAV(listOfSAV);
+      } else {
+        if (searchMode === "byName") {
+          setListOfFilteredSAV(listOfSAV ? listOfSAV.filter(sav => sav.clientName.toLowerCase().includes(searchValue.toLowerCase())) : null);
+        }
+        else if (searchMode === "byModel") {
+          setListOfFilteredSAV(listOfSAV ? listOfSAV.filter(sav => sav.product.model.toLowerCase().includes(searchValue.toLowerCase())) : null);
+        }
+      }
+    }, [listOfSAV, searchValue, searchMode])
 
     const handleUpdateSAV = (sav: SAV) => {
       setWantUpdateSAV(true);    
@@ -30,24 +40,11 @@ const SavLister = () => {
     // fonction pour n'afficher que les SAV qui ne sont pas encore livrés
     const savNotReleased: SAV[] = listOfFilteredSAV?.filter(sav => sav.log[sav.log.length - 1].status !== "livré") || []
 
-    const handleFilterSAV = (searchV: string) => {
-      if (searchV === "") {
-        setListOfFilteredSAV(listOfSAV);
-      } else {
-        if (searchMode === "byName") {
-          setListOfFilteredSAV(listOfSAV ? listOfSAV.filter(sav => sav.clientName.toLowerCase().includes(searchV.toLowerCase())) : null);
-        }
-        else if (searchMode === "byModel") {
-          setListOfFilteredSAV(listOfSAV ? listOfSAV.filter(sav => sav.product.model.toLowerCase().includes(searchV.toLowerCase())) : null);
-        }
-      }
-    }
-
   return (<>
     <section id={"searchBar"}>
       <SAVSearcher 
           onChangeMode={(mode) => setSearchMode(mode)} 
-          onChangeSearchValue={(searchValue) => handleFilterSAV(searchValue)}
+          onChangeSearchValue={(searchV) => setSearchValue(searchV)}
       />
     </section>
     <section id={"savLister"}>
