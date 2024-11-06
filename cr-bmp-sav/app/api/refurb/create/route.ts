@@ -9,7 +9,7 @@ import { Refurbishment } from "@/constants/types";
  */
 async function createRefurb(newRefurb: Refurbishment): Promise<Refurbishment> {
     // création du refurb dans la base de donnée avec prisma
-    let refurb = await prisma.refurbishment.create({
+    const refurb = await prisma.refurbishment.create({
         data: {
             id: newRefurb.id,
             corner: newRefurb.corner,
@@ -17,6 +17,7 @@ async function createRefurb(newRefurb: Refurbishment): Promise<Refurbishment> {
             log: JSON.stringify(newRefurb.log),
         },
     });
+    console.log(`prisma ~> refurb créé : ${refurb.id}`);
     return newRefurb;
 }
 

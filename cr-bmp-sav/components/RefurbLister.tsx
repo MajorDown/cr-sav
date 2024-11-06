@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useCornerContext } from "@/contexts/CornerContext"
 import { useRefurbContext } from "@/contexts/RefurbContext"
 import RefurbCard from "./RefurbCard"

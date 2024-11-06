@@ -10,7 +10,7 @@ import { Contact, Log, ProductToSAV, SAV } from "@/constants/types";
  */
 async function updateSAVLog(id: string, Log: Log): Promise<SAV> {
     // update du log du SAV
-    let sav = await prisma.sAV.update({
+    const sav = await prisma.sAV.update({
         where: {
             id: id,
         },

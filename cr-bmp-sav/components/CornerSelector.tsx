@@ -4,7 +4,7 @@ import { Corner } from '@/constants/types'
 import { useCornerContext } from '@/contexts/CornerContext'
 
 const CornerSelector = () => {
-  const { actualCorner, updateActualCorner } = useCornerContext()
+  const { updateActualCorner } = useCornerContext()
   const [listOfCorners, setListOfCorners] = useState<Corner[]>([])
   const [selectedCornerId, setSelectedCornerId] = useState<string>('') // Stocke l'ID du corner sélectionné
 

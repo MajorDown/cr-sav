@@ -5,7 +5,7 @@ import { Contact, Log, ProductToSAV, SAV } from "@/constants/types";
 // Fonction pour récupérer la liste des SAV par corner
 async function getSavByCorner(id: string): Promise<SAV[]> {
     // recherche des SAV par corner dans prisma
-    let savList = await prisma.sAV.findMany({
+    const savList = await prisma.sAV.findMany({
         where: {
             corner: id,
         },

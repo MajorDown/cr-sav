@@ -9,7 +9,7 @@ import { Contact, Log, ProductToSAV, SAV } from "@/constants/types";
  */
 async function updateSAVInfos(updatedSAV: SAV): Promise<SAV> {
     // update des infos du SAV
-    let sav = await prisma.sAV.update({
+    const sav = await prisma.sAV.update({
         where: {
             id: updatedSAV.id,
         },

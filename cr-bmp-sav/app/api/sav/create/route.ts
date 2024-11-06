@@ -9,7 +9,7 @@ import { SAV } from "@/constants/types";
  */
 async function createSAV(newSav: SAV): Promise<SAV> {
     // création du SAV dans la base de donnée avec prisma
-    let sav = await prisma.sAV.create({
+    const sav = await prisma.sAV.create({
         data: {
             id: newSav.id,
             corner: newSav.corner,
@@ -19,6 +19,7 @@ async function createSAV(newSav: SAV): Promise<SAV> {
             log: JSON.stringify(newSav.log),
         },
     });
+    console.log(`prisma ~> SAV créé : ${sav.id}`);
     return newSav;
 }
 

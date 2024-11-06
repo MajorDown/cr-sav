@@ -44,13 +44,13 @@ const ModalToCreateSav = (props: ModalToCreateSavProps) => {
         setNewIntervention({todo: "", isDone: false})
     }
 
-    const handleUpdateIntervention = (intervention: any) => {
+    const handleUpdateIntervention = (intervention: Intervention) => {
         const updatedIntervention = { ...intervention, isDone: !intervention.isDone }
-        setNewSav({...newSav, log: [{...newSav.log[0], interventions: newSav.log[0].interventions.map((i: any) => i === intervention ? updatedIntervention : i)}]})
+        setNewSav({...newSav, log: [{...newSav.log[0], interventions: newSav.log[0].interventions.map((i: Intervention) => i === intervention ? updatedIntervention : i)}]})
     }
 
-    const handleDeleteIntervention = (intervention: any) => {
-        setNewSav({...newSav, log: [{...newSav.log[0], interventions: newSav.log[0].interventions.filter((i: any) => i !== intervention)}]})
+    const handleDeleteIntervention = (intervention: Intervention) => {
+        setNewSav({...newSav, log: [{...newSav.log[0], interventions: newSav.log[0].interventions.filter((i: Intervention) => i !== intervention)}]})
     }
 
     const handleSubmit = async (event: FormEvent) => {

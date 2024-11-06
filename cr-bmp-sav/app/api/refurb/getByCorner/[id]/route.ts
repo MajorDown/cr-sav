@@ -5,7 +5,7 @@ import { Log, ProductToRefurb, Refurbishment } from "@/constants/types";
 // Fonction pour récupérer la liste des SAV par corner
 async function getRefurbByCorner(id: string): Promise<Refurbishment[]> {
     // recherche des SAV par corner dans prisma
-    let refurbList = await prisma.refurbishment.findMany({
+    const refurbList = await prisma.refurbishment.findMany({
         where: {
             corner: id,
         },

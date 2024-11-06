@@ -29,7 +29,7 @@ const SAVSearcher = (props: SAVSearcherProps) => {
                 type="savSearcher" 
                 id="param" 
                 placeholder={`rentrez un ${mode === "byName" ? "nom" : "modèle"}`}
-                value={mode}
+                value={searchValue}
                 onChange={(e) => handleChangeSearchValue(e.target.value)}
 
             />
@@ -42,4 +42,4 @@ const SAVSearcher = (props: SAVSearcherProps) => {
     )
 }
 
-export default SAVSearcher
+export default SAVSearcher;

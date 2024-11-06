@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { useCornerContext } from "@/contexts/CornerContext"
 import { useSAVContext } from "@/contexts/SAVContext"
@@ -14,28 +14,31 @@ const SavLister = () => {
     const { listOfSAV } = useSAVContext()
     const [searchMode, setSearchMode] = useState<"byName" | "byModel">("byName");
     const [listOfFilteredSAV, setListOfFilteredSAV] = useState<SAV[] | null>(listOfSAV);
-    const [searchValue, setSearchValue] = useState<string>("");
     const [wantDisplayReleased, setWantDisplayReleased] = useState<boolean>(false)
     const [wantUpdateSAV, setWantUpdateSAV] = useState<boolean>(false);
     const [SavToUpdate, setSavToUpdate] = useState<SAV | null>(null);
     const [wantCreateSAV, setWantCreateSAV] = useState<boolean>(false);
+
+    useEffect(() => {
+      console.log("listOfSAV :", listOfSAV)
+    }, [listOfSAV])
 
     const handleUpdateSAV = (sav: SAV) => {
       setWantUpdateSAV(true);    
       setSavToUpdate(sav);
     }
     // fonction pour n'afficher que les SAV qui ne sont pas encore livrés
-    const savNotReleased: SAV[] = listOfSAV?.filter(sav => sav.log[sav.log.length - 1].status !== "livré") || []
+    const savNotReleased: SAV[] = listOfFilteredSAV?.filter(sav => sav.log[sav.log.length - 1].status !== "livré") || []
 
-    const handleFilterSAV = (searchvalue: string) => {
-      if (searchvalue === "") {
+    const handleFilterSAV = (searchV: string) => {
+      if (searchV === "") {
         setListOfFilteredSAV(listOfSAV);
       } else {
         if (searchMode === "byName") {
-          setListOfFilteredSAV(listOfSAV ? listOfSAV.filter(sav => sav.clientName.toLowerCase().includes(searchvalue.toLowerCase())) : null);
+          setListOfFilteredSAV(listOfSAV ? listOfSAV.filter(sav => sav.clientName.toLowerCase().includes(searchV.toLowerCase())) : null);
         }
         else if (searchMode === "byModel") {
-          setListOfFilteredSAV(listOfSAV ? listOfSAV.filter(sav => sav.product.model.toLowerCase().includes(searchValue.toLowerCase())) : null);
+          setListOfFilteredSAV(listOfSAV ? listOfSAV.filter(sav => sav.product.model.toLowerCase().includes(searchV.toLowerCase())) : null);
         }
       }
     }
@@ -65,17 +68,17 @@ const SavLister = () => {
             </label>
           </div>
           }
-        {listOfSAV && listOfSAV.length > 0 && wantDisplayReleased && listOfSAV.map(sav => (
+        {listOfFilteredSAV && listOfFilteredSAV.length > 0 && wantDisplayReleased && listOfFilteredSAV.map(sav => (
             <SavCard key={sav.id} sav={sav} onDoubleClic={() => handleUpdateSAV(sav)}/>
         ))}
-        {listOfSAV && listOfSAV.length > 0 && !wantDisplayReleased && savNotReleased.map(sav => (
+        {listOfFilteredSAV && listOfFilteredSAV.length > 0 && !wantDisplayReleased && savNotReleased.map(sav => (
             <SavCard key={sav.id} sav={sav} onDoubleClic={() => handleUpdateSAV(sav)}/>
         ))}
-        {(!listOfSAV || listOfSAV.length === 0) && !wantDisplayReleased && <p>Aucun SAV enregistré</p>}
+        {(!listOfFilteredSAV || listOfFilteredSAV.length === 0) && !wantDisplayReleased && <p>Aucun SAV enregistré</p>}
         {!wantDisplayReleased && savNotReleased.length === 0 && <p>Aucun SAV en cours</p>}
     </section>
   </>
   )
 }
 
-export default SavLister
+export default SavLister;

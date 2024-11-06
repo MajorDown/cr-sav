@@ -9,7 +9,7 @@ import { Refurbishment } from "@/constants/types";
  */
 async function updateRefurb(newRefurb: Refurbishment): Promise<Refurbishment> {
     // création du refurb dans la base de donnée avec prisma
-    let refurb = await prisma.refurbishment.update(
+    const refurb = await prisma.refurbishment.update(
         {
             where: { id: newRefurb.id },
             data: {
@@ -19,6 +19,7 @@ async function updateRefurb(newRefurb: Refurbishment): Promise<Refurbishment> {
             },
         }
     );
+    console.log(`prisma ~> refurb actualisé : ${refurb.id}`);
     return newRefurb;
 }
 

@@ -4,7 +4,7 @@ import prisma from "@/prisma/prisma";
 
 // Fonction pour récupérer la liste des corners
 async function getCorners(): Promise<Corner[]> {
-  let corners = await prisma.corner.findMany();
+  const corners = await prisma.corner.findMany();
 
   return corners.map(corner => ({
     id: corner.id,
@@ -14,7 +14,7 @@ async function getCorners(): Promise<Corner[]> {
 }
 
 export const GET = async (request: Request) => {
-  console.log("api/corners/getAll ~> Récupération de la liste des corners");
+  console.log("api/corners/getAll ~> Récupération de la liste des corners : ", request);
   try {
     // récupération de la liste des corners via prisma
     const cornersList: Corner[] = await getCorners();
